@@ -74,29 +74,28 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return new MaterialApp(
       home: new Scaffold(
         appBar: new AppBar(
           title: new Text("首页"),
         ),
         body: new TabBarView(controller: controller, children: pages),
-        bottomNavigationBar: new Material(
+        bottomNavigationBar: Container(
           color: Colors.blue,
-          child: new TabBar(
-            controller: controller,
-            tabs: <Tab>[
-              new Tab(text: "首页", icon: new Icon(Icons.home)),
-              new Tab(text: "视频", icon: new Icon(Icons.find_in_page)),
-              new Tab(text: "圈子", icon: new Icon(Icons.message)),
-              new Tab(text: "我的", icon: new Icon(Icons.person))
-            ],
-            indicatorWeight: 0.1,
+          child: SafeArea(
+            child: new Material(
+              color: Colors.blue,
+              child: new TabBar(
+                controller: controller,
+                tabs: <Tab>[
+                  new Tab(text: "首页", icon: new Icon(Icons.home)),
+                  new Tab(text: "视频", icon: new Icon(Icons.find_in_page)),
+                  new Tab(text: "圈子", icon: new Icon(Icons.message)),
+                  new Tab(text: "我的", icon: new Icon(Icons.person))
+                ],
+                indicatorWeight: 0.1,
+              ),
+            ),
           ),
         ),
       ),
