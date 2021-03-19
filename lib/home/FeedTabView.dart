@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swiftmic_news/article/ArticleDetailPageView.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:swiftmic_news/feed/HomeFeedItemData.dart';
+import 'package:swiftmic_news/feed/HomeFeedItemView.dart';
 
 class FeedTabView extends StatefulWidget {
   @override
@@ -72,16 +74,23 @@ class _FeedTabViewState extends State<FeedTabView> {
     return ListView.builder(
       // itemBuilder: (c, i) => Card(child: Center(child: Text(items[i]))),
       itemBuilder: (c, i) => buildRow(i),
-      itemExtent: 100.0,
+      // itemExtent: 100.0,
       itemCount: items.length,
     );
   }
 
   Widget buildRow(int index) {
-    return ListTile(
-      title: Text("index: " + index.toString()),
-      onTap: onItemClicked,
-    );
+    // return ListTile(
+    //   title: Text("index: " + index.toString()),
+    //   onTap: onItemClicked,
+    // );
+
+    HomeFeedItemData data = HomeFeedItemData();
+    data.title = "64位Chrome运行至少需8GB内存：安卓网友直呼用不起。64位Chrome运行至少需8GB内存：安卓网友直呼用不起。";
+    data.authorName = "量子位";
+    data.commentCount = 819;
+
+    return HomeFeedItemView(data);
   }
 
   void onItemClicked() {
