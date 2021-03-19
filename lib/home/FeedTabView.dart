@@ -9,7 +9,7 @@ class FeedTabView extends StatefulWidget {
 }
 
 class _FeedTabViewState extends State<FeedTabView> {
-  List<String> items = ["1", "2", "3", "4", "5", "6", "7", "8"];
+  List<String> items = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -24,15 +24,17 @@ class _FeedTabViewState extends State<FeedTabView> {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
-    items.add((items.length + 1).toString());
+
+    for (var i = 0; i < 10; ++i) {
+      items.add((items.length + 1).toString());
+    }
+
     if (mounted) setState(() {});
     _refreshController.loadComplete();
   }
 
   @override
   Widget build(BuildContext context) {
-    // return buildListView();
-
     return Scaffold(
       body: SmartRefresher(
         enablePullDown: true,
@@ -61,34 +63,33 @@ class _FeedTabViewState extends State<FeedTabView> {
         controller: _refreshController,
         onRefresh: _onRefresh,
         onLoading: _onLoading,
-        child: ListView.builder(
-          itemBuilder: (c, i) => Card(child: Center(child: Text(items[i]))),
-          itemExtent: 100.0,
-          itemCount: items.length,
-        ),
+        child: buildListView(),
       ),
     );
   }
 
-  // Widget buildListView() {
-  //   return ListView.builder(itemBuilder: (context, i) {
-  //     return buildRow(i);
-  //   });
-  // }
+  Widget buildListView() {
+    return ListView.builder(
+      // itemBuilder: (c, i) => Card(child: Center(child: Text(items[i]))),
+      itemBuilder: (c, i) => buildRow(i),
+      itemExtent: 100.0,
+      itemCount: items.length,
+    );
+  }
 
-  // Widget buildRow(int index) {
-  //   return ListTile(
-  //     title: Text("index: " + index.toString()),
-  //     onTap: onItemClicked,
-  //   );
-  // }
+  Widget buildRow(int index) {
+    return ListTile(
+      title: Text("index: " + index.toString()),
+      onTap: onItemClicked,
+    );
+  }
 
-  // void onItemClicked() {
-  //   print("onItemClicked");
+  void onItemClicked() {
+    print("onItemClicked");
 
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(builder: (context) => ArticleDetailPageView()),
-  //   );
-  // }
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ArticleDetailPageView()),
+    );
+  }
 }
