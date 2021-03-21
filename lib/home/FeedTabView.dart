@@ -80,11 +80,6 @@ class _FeedTabViewState extends State<FeedTabView> {
   }
 
   Widget buildRow(int index) {
-    // return ListTile(
-    //   title: Text("index: " + index.toString()),
-    //   onTap: onItemClicked,
-    // );
-
     HomeFeedItemData data = HomeFeedItemData();
 
     if (0 == index) {
@@ -105,15 +100,12 @@ class _FeedTabViewState extends State<FeedTabView> {
       data.itemType = ItemType.text;
     }
 
-    return HomeFeedItemView(data);
-  }
-
-  void onItemClicked() {
-    print("onItemClicked");
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ArticleDetailPageView()),
-    );
+    return HomeFeedItemView(data, (data) {
+      // 跳转到详情页面
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ArticleDetailPageView()),
+      );
+    });
   }
 }
