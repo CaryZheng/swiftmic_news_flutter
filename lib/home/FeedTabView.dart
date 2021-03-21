@@ -86,9 +86,24 @@ class _FeedTabViewState extends State<FeedTabView> {
     // );
 
     HomeFeedItemData data = HomeFeedItemData();
-    data.title = "64位Chrome运行至少需8GB内存：安卓网友直呼用不起。64位Chrome运行至少需8GB内存：安卓网友直呼用不起。";
-    data.authorName = "量子位";
-    data.commentCount = 819;
+
+    if (0 == index) {
+      data.title =
+          "64位Chrome运行至少需8GB内存：安卓网友直呼用不起。64位Chrome运行至少需8GB内存：安卓网友直呼用不起。";
+      data.authorName = "量子位";
+      data.commentCount = 819;
+      data.itemType = ItemType.text;
+    } else if (1 == index) {
+      data.title = "再次发现商晚期黄金面具！三星堆公布最新考古发掘成果";
+      data.authorName = "四川观察";
+      data.commentCount = 100;
+      data.itemType = ItemType.text_images;
+    } else {
+      data.title = "路中青石板凸起，怕游客摔跤工作人员赶到处理，揭开一看太意外！";
+      data.authorName = "北青网";
+      data.commentCount = 98;
+      data.itemType = ItemType.text;
+    }
 
     return HomeFeedItemView(data);
   }
