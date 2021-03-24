@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ArticleDetailPageView extends StatelessWidget {
+class ArticleDetailPageView extends StatefulWidget {
+  @override
+  _ArticleDetailPageViewState createState() => _ArticleDetailPageViewState();
+}
+
+class _ArticleDetailPageViewState extends State<ArticleDetailPageView> {
   final String sampleText = """
 中国经济周刊-经济网讯 近日，山东省冠县人民法院在执行一起案件中，依法公开拍卖一个尾号为55555的手机号码，成交价高达120多万元。
 
