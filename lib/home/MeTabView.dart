@@ -32,10 +32,103 @@ class _MeTabViewState extends State<MeTabView> {
     );
   }
 
+  Widget buildIconWithTextView(String iconName, String text) {
+    return Container(
+      child: Column(
+        children: [
+          Text(
+            iconName,
+            style: TextStyle(
+                fontFamily: "MaterialIcons", fontSize: 24, color: Colors.red),
+          ),
+          SizedBox(
+            height: 4,
+          ),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 动态生成菜单组
+  Widget buildGroupMenu(List<String> titles) {
+    Column column = Column(
+      children: [],
+    );
+
+    Container container = Container(
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.grey,
+      ),
+      child: column,
+    );
+
+    int index = 0;
+    for (var title in titles) {
+      Row row = Row(
+        children: [
+          Text(
+            title,
+            style: TextStyle(fontSize: 18),
+          ),
+          Spacer(),
+          Text(
+            "\ue5b0",
+            style: TextStyle(
+              fontFamily: "MaterialIcons",
+              fontSize: 24,
+            ),
+          ),
+        ],
+      );
+
+      double marginTop = 0;
+      if (0 == index) {
+        marginTop = 0;
+      } else {
+        marginTop = 10;
+      }
+
+      var container = Container(
+        child: row,
+        margin: EdgeInsets.fromLTRB(0, marginTop, 0, 0),
+      );
+
+      column.children.add(container);
+
+      if (titles.length > 1 && index < titles.length - 1) {
+        Divider divider = Divider(
+          height: 1,
+          indent: 2,
+          endIndent: 6,
+        );
+
+        Container dividerContainer = Container(
+          child: divider,
+          margin: EdgeInsets.fromLTRB(0, 6, 0, 0),
+        );
+
+        column.children.add(dividerContainer);
+      }
+
+      index++;
+    }
+
+    return container;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
-      shrinkWrap: true,
       children: [
         Row(children: [
           Container(
@@ -75,38 +168,42 @@ class _MeTabViewState extends State<MeTabView> {
             child: buildNumberWithTextView(105813, "历史"),
           ),
         ]),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Container(
-            height: 60,
-            width: MediaQuery.of(context).size.width - 20,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.black,
+        Container(
+          margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.grey,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              buildIconWithTextView("\uE000", "我的关注"),
+              buildIconWithTextView("\uE001", "我的圈子"),
+              buildIconWithTextView("\uE002", "任务中心"),
+              buildIconWithTextView("\uE003", "金币商城"),
+            ],
+          ),
+        ),
+        buildGroupMenu(["深色模式", "意见反馈", "我的会员"]),
+        buildGroupMenu(["用户鉴贴", "京东特供", "免流量看新闻"]),
+        buildGroupMenu(["我的已购", "我的钱包", "扫一扫"]),
+        SizedBox(
+          height: 10,
+        ),
+        Row(
+          children: [
+            Text(
+              "~设置入口挪到页面顶部了哟~",
+              style: TextStyle(fontSize: 13),
             ),
-          )
-        ]),
-        Row(children: [
-          Container(
-            height: 60,
-            width: MediaQuery.of(context).size.width,
-            color: Colors.pink,
-          )
-        ]),
-        Row(children: [
-          Container(
-            height: 60,
-            width: MediaQuery.of(context).size.width,
-            color: Colors.yellow,
-          )
-        ]),
-        Row(children: [
-          Container(
-            height: 60,
-            width: MediaQuery.of(context).size.width,
-            color: Colors.cyan,
-          )
-        ]),
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
+        ),
+        SizedBox(
+          height: 20,
+        ),
       ],
     );
   }
