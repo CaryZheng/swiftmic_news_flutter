@@ -128,83 +128,85 @@ class _MeTabViewState extends State<MeTabView> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Row(children: [
-          Container(
-            child: ClipOval(
-              child: Image.asset(
-                'images/item_images_test.png',
-                width: 80,
-                height: 80,
-                fit: BoxFit.cover,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Row(children: [
+            Container(
+              child: ClipOval(
+                child: Image.asset(
+                  'images/item_images_test.png',
+                  width: 80,
+                  height: 80,
+                  fit: BoxFit.cover,
+                ),
               ),
+              padding: EdgeInsets.all(20),
             ),
-            padding: EdgeInsets.all(20),
+            Column(
+              children: [
+                Text(
+                  "CaryZheng",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            )
+          ]),
+          Row(children: [
+            Expanded(
+              child: buildNumberWithTextView(0, "动态"),
+            ),
+            Expanded(
+              child: buildNumberWithTextView(1, "跟帖"),
+            ),
+            Expanded(
+              child: buildNumberWithTextView(32, "收藏/推荐"),
+            ),
+            Expanded(
+              child: buildNumberWithTextView(105813, "历史"),
+            ),
+          ]),
+          Container(
+            margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.grey,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                buildIconWithTextView("\uE000", "我的关注"),
+                buildIconWithTextView("\uE001", "我的圈子"),
+                buildIconWithTextView("\uE002", "任务中心"),
+                buildIconWithTextView("\uE003", "金币商城"),
+              ],
+            ),
           ),
-          Column(
+          buildGroupMenu(["深色模式", "意见反馈", "我的会员"]),
+          buildGroupMenu(["用户鉴贴", "京东特供", "免流量看新闻"]),
+          buildGroupMenu(["我的已购", "我的钱包", "扫一扫"]),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
             children: [
               Text(
-                "CaryZheng",
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
+                "~设置入口挪到页面顶部了哟~",
+                style: TextStyle(fontSize: 13),
               ),
             ],
-          )
-        ]),
-        Row(children: [
-          Expanded(
-            child: buildNumberWithTextView(0, "动态"),
+            mainAxisAlignment: MainAxisAlignment.center,
           ),
-          Expanded(
-            child: buildNumberWithTextView(1, "跟帖"),
+          SizedBox(
+            height: 20,
           ),
-          Expanded(
-            child: buildNumberWithTextView(32, "收藏/推荐"),
-          ),
-          Expanded(
-            child: buildNumberWithTextView(105813, "历史"),
-          ),
-        ]),
-        Container(
-          margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.grey,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              buildIconWithTextView("\uE000", "我的关注"),
-              buildIconWithTextView("\uE001", "我的圈子"),
-              buildIconWithTextView("\uE002", "任务中心"),
-              buildIconWithTextView("\uE003", "金币商城"),
-            ],
-          ),
-        ),
-        buildGroupMenu(["深色模式", "意见反馈", "我的会员"]),
-        buildGroupMenu(["用户鉴贴", "京东特供", "免流量看新闻"]),
-        buildGroupMenu(["我的已购", "我的钱包", "扫一扫"]),
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          children: [
-            Text(
-              "~设置入口挪到页面顶部了哟~",
-              style: TextStyle(fontSize: 13),
-            ),
-          ],
-          mainAxisAlignment: MainAxisAlignment.center,
-        ),
-        SizedBox(
-          height: 20,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
