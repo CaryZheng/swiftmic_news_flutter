@@ -56,7 +56,7 @@ class _MeTabViewState extends State<MeTabView> {
   }
 
   // 动态生成菜单组
-  Widget buildGroupMenu(List<String> titles) {
+  Widget buildGroupMenu({List<String> titles, Function onClicked}) {
     Column column = Column(
       children: [],
     );
@@ -74,6 +74,7 @@ class _MeTabViewState extends State<MeTabView> {
 
     int index = 0;
     for (var title in titles) {
+      final int currentIndex = index;
       Row row = Row(
         children: [
           Text(
@@ -92,7 +93,7 @@ class _MeTabViewState extends State<MeTabView> {
       );
 
       double marginTop = 0;
-      if (0 == index) {
+      if (0 == currentIndex) {
         marginTop = 0;
       } else {
         marginTop = 10;
@@ -103,9 +104,15 @@ class _MeTabViewState extends State<MeTabView> {
         margin: EdgeInsets.fromLTRB(0, marginTop, 0, 0),
       );
 
-      column.children.add(container);
+      InkWell inkWell = InkWell(
+        child: container,
+        onTap: () {
+          onClicked(currentIndex);
+        },
+      );
+      column.children.add(inkWell);
 
-      if (titles.length > 1 && index < titles.length - 1) {
+      if (titles.length > 1 && currentIndex < titles.length - 1) {
         Divider divider = Divider(
           height: 1,
           indent: 2,
@@ -187,9 +194,21 @@ class _MeTabViewState extends State<MeTabView> {
               ],
             ),
           ),
-          buildGroupMenu(["深色模式", "意见反馈", "我的会员"]),
-          buildGroupMenu(["用户鉴贴", "京东特供", "免流量看新闻"]),
-          buildGroupMenu(["我的已购", "我的钱包", "扫一扫"]),
+          buildGroupMenu(
+              titles: ["深色模式", "意见反馈", "我的会员"],
+              onClicked: (int index) {
+                print("a index = $index");
+              }),
+          buildGroupMenu(
+              titles: ["用户鉴贴", "京东特供", "免流量看新闻"],
+              onClicked: (int index) {
+                print("b index = $index");
+              }),
+          buildGroupMenu(
+              titles: ["我的已购", "我的钱包", "扫一扫"],
+              onClicked: (int index) {
+                print("c index = $index");
+              }),
           SizedBox(
             height: 10,
           ),
