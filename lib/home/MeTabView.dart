@@ -10,6 +10,18 @@ class MeTabView extends StatefulWidget {
 }
 
 class _MeTabViewState extends State<MeTabView> {
+  OverlayEntry _overlayEntry;
+  double _tipViewHeight = 400;
+  double _tipViewWidth = 300;
+  Color testColor = Colors.grey;
+  double _testViewHeight = 100;
+
+  Color test2Color = Colors.red;
+
+  Color test3Color = Color.fromRGBO(0, 0, 0, 1);
+
+  bool _show = false;
+
   Widget buildNumberWithTextView(int number, String text) {
     return Container(
       child: Column(
@@ -198,11 +210,116 @@ class _MeTabViewState extends State<MeTabView> {
               titles: ["深色模式", "意见反馈", "我的会员"],
               onClicked: (int index) {
                 print("a index = $index");
+                if (0 == index) {
+                  // AnimatedContainer container = AnimatedContainer(
+                  //   duration: Duration(seconds: 3),
+                  //   width: MediaQuery.of(context).size.width,
+                  //   height: MediaQuery.of(context).size.height,
+                  //   color: test3Color,
+                  //   child: Column(
+                  //     children: [
+                  //       Expanded(
+                  //         // flex: 1,
+                  //         child: Container(),
+                  //       ),
+                  //       Container(
+                  //         color: Colors.green,
+                  //         width: MediaQuery.of(context).size.width,
+                  //         child: Column(
+                  //           children: [
+                  //             Text("11111111111"),
+                  //             ElevatedButton(
+                  //               onPressed: () {
+                  //                 // _overlayEntry.remove();
+
+                  //                 setState(() {
+                  //                   test3Color = Color.fromRGBO(0, 0, 0, 0.1);
+                  //                 });
+                  //               },
+                  //               child: Text("Test"),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  // );
+
+                  Container container = Container(
+                    // duration: Duration(seconds: 3),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    color: Colors.black,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          // flex: 1,
+                          child: Container(),
+                        ),
+                        Container(
+                          color: Colors.green,
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            children: [
+                              Text("11111111111"),
+                              ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _show = !_show;
+                                  });
+
+                                  _overlayEntry.markNeedsBuild();
+
+                                  Future.delayed(Duration(milliseconds: 300),
+                                      () {
+                                    _overlayEntry.remove();
+                                  });
+                                },
+                                child: Text("Test"),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+
+                  OverlayEntry overlayEntry = OverlayEntry(
+                    builder: (context) => Positioned(
+                      child: AnimatedOpacity(
+                        opacity: _show ? 0.7 : 0,
+                        duration: Duration(milliseconds: 200),
+                        child: container,
+                      ),
+                    ),
+                  );
+
+                  _overlayEntry = overlayEntry;
+
+                  Overlay.of(context).insert(overlayEntry);
+
+                  Future.delayed(Duration(milliseconds: 100), () {
+                    setState(() {
+                      _show = true;
+                    });
+                    _overlayEntry.markNeedsBuild();
+                  });
+                }
               }),
           buildGroupMenu(
               titles: ["用户鉴贴", "京东特供", "免流量看新闻"],
               onClicked: (int index) {
                 print("b index = $index");
+
+                setState(() {
+                  if (100 == _testViewHeight) {
+                    _testViewHeight = 200;
+                    testColor = Colors.green;
+                  } else {
+                    _testViewHeight = 100;
+                    testColor = Colors.grey;
+                  }
+                });
               }),
           buildGroupMenu(
               titles: ["我的已购", "我的钱包", "扫一扫"],
