@@ -56,7 +56,7 @@ class _MeTabViewState extends State<MeTabView> {
   }
 
   // 动态生成菜单组
-  Widget buildGroupMenu({List<String> titles, Function onClicked}) {
+  Widget buildGroupMenu({List<String> titles, Function(int) onClicked}) {
     Column column = Column(
       children: [],
     );
