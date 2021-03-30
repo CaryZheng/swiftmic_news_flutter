@@ -28,7 +28,9 @@ class _FeedTabViewState extends State<FeedTabView> {
     print("Response status: ${response.statusCode}");
     print("Response body: ${response.body}");
 
-    Map<String, dynamic> responseBody = jsonDecode(response.body);
+    Utf8Decoder decode = new Utf8Decoder();
+    Map<String, dynamic> responseBody =
+        jsonDecode(decode.convert(response.bodyBytes));
     int code = responseBody['code'];
     String message = responseBody['message'];
 
