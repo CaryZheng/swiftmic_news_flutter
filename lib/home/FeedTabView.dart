@@ -7,6 +7,8 @@ import 'package:swiftmic_news/feed/HomeFeedItemView.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+typedef OnNetworkCallback = void Function(String response, {String tag});
+
 class FeedTabView extends StatefulWidget {
   @override
   _FeedTabViewState createState() => _FeedTabViewState();
@@ -20,45 +22,14 @@ class _FeedTabViewState extends State<FeedTabView> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  Future<List<HomeFeedItemData>> fetchFeedList(
-      int startPage, int pageSize) async {
+  void fetchFeedList(
+      int startPage, int pageSize, OnNetworkCallback onNetworkCallback) async {
     var url = Uri.parse(
         "https://easyqrcode-api.swiftmic.com/swiftmic/feed/list?startPage=${startPage}&pageSize=${pageSize}");
     var response = await http.get(url);
-    print("Response status: ${response.statusCode}");
-    print("Response body: ${response.body}");
 
-    Utf8Decoder decode = new Utf8Decoder();
-    Map<String, dynamic> responseBody =
-        jsonDecode(decode.convert(response.bodyBytes));
-    int code = responseBody['code'];
-    String message = responseBody['message'];
-
-    print("code = ${code}");
-    print("message = ${message}");
-
-    List<dynamic> dataList = responseBody['data'];
-
-    print("dataList = ${dataList}");
-
-    List<HomeFeedItemData> itemDataList = [];
-
-    for (Map element in dataList) {
-      HomeFeedItemData itemData = HomeFeedItemData();
-
-      String author = element['author'];
-      String title = element['title'];
-      int commentCount = element['commentCount'];
-
-      itemData.authorName = author;
-      itemData.title = title;
-      itemData.commentCount = commentCount;
-      itemData.itemType = ItemType.text;
-
-      itemDataList.add(itemData);
-    }
-
-    return itemDataList;
+    onNetworkCallback(utf8.decode(response.body.runes.toList()),
+        tag: startPage.toString());
   }
 
   void _onRefresh() async {
@@ -67,17 +38,44 @@ class _FeedTabViewState extends State<FeedTabView> {
 
     _currentFetchPageIndex = 0;
 
-    List<HomeFeedItemData> dataList =
-        await fetchFeedList(_currentFetchPageIndex, 10);
-    print("dataList = ${dataList}");
+    fetchFeedList(_currentFetchPageIndex, 10, (String response, {String tag}) {
+      print("onNetworkCallback response = $response");
 
-    setState(() {
-      _dataList = dataList;
-      _currentFetchPageIndex++;
+      Map<String, dynamic> responseBody = jsonDecode(response);
+      int code = responseBody['code'];
+      String message = responseBody['message'];
+
+      print("code = $code");
+      print("message = $message");
+
+      List<dynamic> dataList = responseBody['data'];
+
+      print("dataList = $dataList");
+
+      List<HomeFeedItemData> itemDataList = [];
+
+      for (Map element in dataList) {
+        HomeFeedItemData itemData = HomeFeedItemData();
+
+        String author = element['author'];
+        String title = element['title'];
+        int commentCount = element['commentCount'];
+
+        itemData.authorName = author;
+        itemData.title = title;
+        itemData.commentCount = commentCount;
+        itemData.itemType = ItemType.text;
+
+        itemDataList.add(itemData);
+      }
+
+      setState(() {
+        _dataList = itemDataList;
+      });
+
+      // if failed,use refreshFailed()
+      _refreshController.refreshCompleted();
     });
-
-    // if failed,use refreshFailed()
-    _refreshController.refreshCompleted();
   }
 
   void _onLoading() async {
@@ -85,20 +83,47 @@ class _FeedTabViewState extends State<FeedTabView> {
     // await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
-    List<HomeFeedItemData> dataList =
-        await fetchFeedList(_currentFetchPageIndex, 10);
+    fetchFeedList(_currentFetchPageIndex + 1, 10, (String response,
+        {String tag}) {
+      print("onNetworkCallback response = $response");
 
-    setState(() {
-      _dataList.addAll(dataList);
+      Map<String, dynamic> responseBody = jsonDecode(response);
+      int code = responseBody['code'];
+      String message = responseBody['message'];
+
+      print("code = $code");
+      print("message = $message");
+
+      List<dynamic> dataList = responseBody['data'];
+
+      print("dataList = $dataList");
+
+      List<HomeFeedItemData> itemDataList = [];
+
+      for (Map element in dataList) {
+        HomeFeedItemData itemData = HomeFeedItemData();
+
+        String author = element['author'];
+        String title = element['title'];
+        int commentCount = element['commentCount'];
+
+        itemData.authorName = author;
+        itemData.title = title;
+        itemData.commentCount = commentCount;
+        itemData.itemType = ItemType.text;
+
+        itemDataList.add(itemData);
+      }
+
+      setState(() {
+        _dataList.addAll(itemDataList);
+      });
+
       _currentFetchPageIndex++;
+
+      if (mounted) setState(() {});
+      _refreshController.loadComplete();
     });
-
-    // for (var i = 0; i < 10; ++i) {
-    //   items.add((items.length + 1).toString());
-    // }
-
-    if (mounted) setState(() {});
-    _refreshController.loadComplete();
   }
 
   @override
@@ -151,26 +176,6 @@ class _FeedTabViewState extends State<FeedTabView> {
     }
 
     HomeFeedItemData data = _dataList[index];
-
-    // HomeFeedItemData data = HomeFeedItemData();
-
-    // if (0 == index) {
-    //   data.title =
-    //       "64位Chrome运行至少需8GB内存：安卓网友直呼用不起。64位Chrome运行至少需8GB内存：安卓网友直呼用不起。";
-    //   data.authorName = "量子位";
-    //   data.commentCount = 819;
-    //   data.itemType = ItemType.text;
-    // } else if (1 == index) {
-    //   data.title = "再次发现商晚期黄金面具！三星堆公布最新考古发掘成果";
-    //   data.authorName = "四川观察";
-    //   data.commentCount = 100;
-    //   data.itemType = ItemType.text_images;
-    // } else {
-    //   data.title = "路中青石板凸起，怕游客摔跤工作人员赶到处理，揭开一看太意外！";
-    //   data.authorName = "北青网";
-    //   data.commentCount = 98;
-    //   data.itemType = ItemType.text;
-    // }
 
     return HomeFeedItemView(data, (data) {
       // 跳转到详情页面
