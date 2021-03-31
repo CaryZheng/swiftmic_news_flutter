@@ -22,7 +22,7 @@ class _FeedTabViewState extends State<FeedTabView> {
   ApiManager _apiManager = new ApiManager();
 
   RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: true);
 
   void _onRefresh() async {
     // monitor network fetch
