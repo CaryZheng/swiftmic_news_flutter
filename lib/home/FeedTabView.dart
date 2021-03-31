@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swiftmic_news/api/ApiManager.dart';
 import 'package:swiftmic_news/article/ArticleDetailPageView.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:swiftmic_news/feed/HomeFeedItemData.dart';
 import 'package:swiftmic_news/feed/HomeFeedItemView.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 typedef OnNetworkCallback = void Function(String response, {String tag});
@@ -18,19 +18,10 @@ class _FeedTabViewState extends State<FeedTabView> {
   List<HomeFeedItemData> _dataList = [];
   int _currentFetchPageIndex = 0;
 
-  List<String> items = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  ApiManager _apiManager = new ApiManager();
+
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-
-  void fetchFeedList(
-      int startPage, int pageSize, OnNetworkCallback onNetworkCallback) async {
-    var url = Uri.parse(
-        "https://easyqrcode-api.swiftmic.com/swiftmic/feed/list?startPage=${startPage}&pageSize=${pageSize}");
-    var response = await http.get(url);
-
-    onNetworkCallback(utf8.decode(response.body.runes.toList()),
-        tag: startPage.toString());
-  }
 
   void _onRefresh() async {
     // monitor network fetch
@@ -38,7 +29,8 @@ class _FeedTabViewState extends State<FeedTabView> {
 
     _currentFetchPageIndex = 0;
 
-    fetchFeedList(_currentFetchPageIndex, 10, (String response, {String tag}) {
+    _apiManager.fetchFeedList(_currentFetchPageIndex, 10, (String response,
+        {String tag}) {
       print("onNetworkCallback response = $response");
 
       Map<String, dynamic> responseBody = jsonDecode(response);
@@ -83,7 +75,7 @@ class _FeedTabViewState extends State<FeedTabView> {
     // await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
-    fetchFeedList(_currentFetchPageIndex + 1, 10, (String response,
+    _apiManager.fetchFeedList(_currentFetchPageIndex + 1, 10, (String response,
         {String tag}) {
       print("onNetworkCallback response = $response");
 
@@ -163,7 +155,6 @@ class _FeedTabViewState extends State<FeedTabView> {
 
   Widget buildListView() {
     return ListView.builder(
-      // itemBuilder: (c, i) => Card(child: Center(child: Text(items[i]))),
       itemBuilder: (c, i) => buildRow(i),
       // itemExtent: 100.0,
       itemCount: _dataList.length,
