@@ -4,14 +4,14 @@ import 'dart:convert';
 typedef OnNetworkCallback = void Function(String response, {String tag});
 
 class ApiManager {
-  void fetchFeedList(
-      int startPage, int pageSize, OnNetworkCallback onNetworkCallback) async {
+  /// 获取feed流数据（支持分页）
+  void fetchFeedList(int startPageIndex, int pageSize,
+      {tag: String, onNetworkCallback: OnNetworkCallback}) async {
     var url = Uri.parse(
-        "https://easyqrcode-api.swiftmic.com/swiftmic/feed/list?startPage=${startPage}&pageSize=${pageSize}");
+        "https://easyqrcode-api.swiftmic.com/swiftmic/feed/list?startPage=${startPageIndex}&pageSize=${pageSize}");
 
     var response = await http.get(url);
 
-    onNetworkCallback(utf8.decode(response.body.runes.toList()),
-        tag: startPage.toString());
+    onNetworkCallback(utf8.decode(response.body.runes.toList()), tag: tag);
   }
 }

@@ -17,6 +17,7 @@ class FeedTabView extends StatefulWidget {
 class _FeedTabViewState extends State<FeedTabView> {
   List<HomeFeedItemData> _dataList = [];
   int _currentFetchPageIndex = 0;
+  final int _pageSize = 10;
 
   ApiManager _apiManager = new ApiManager();
 
@@ -29,8 +30,9 @@ class _FeedTabViewState extends State<FeedTabView> {
 
     _currentFetchPageIndex = 0;
 
-    _apiManager.fetchFeedList(_currentFetchPageIndex, 10, (String response,
-        {String tag}) {
+    _apiManager.fetchFeedList(_currentFetchPageIndex, _pageSize,
+        tag: _currentFetchPageIndex.toString(),
+        onNetworkCallback: (String response, {String tag}) {
       print("onNetworkCallback response = $response");
 
       Map<String, dynamic> responseBody = jsonDecode(response);
@@ -75,8 +77,10 @@ class _FeedTabViewState extends State<FeedTabView> {
     // await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
-    _apiManager.fetchFeedList(_currentFetchPageIndex + 1, 10, (String response,
-        {String tag}) {
+    int startPageIndex = _currentFetchPageIndex + 1;
+    _apiManager.fetchFeedList(startPageIndex, _pageSize,
+        tag: startPageIndex.toString(),
+        onNetworkCallback: (String response, {String tag}) {
       print("onNetworkCallback response = $response");
 
       Map<String, dynamic> responseBody = jsonDecode(response);
