@@ -108,17 +108,28 @@ class _ArticleDetailPageViewState extends State<ArticleDetailPageView> {
             color: Colors.blue,
             child: Row(
               children: [
-                Expanded(
-                  child: TextField(
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: "写跟帖",
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.0),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 80,
+                  height: 40,
+                  child: Container(
+                    child: TextField(
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(10),
+                        hintText: "写跟帖",
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.0),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.0),
+                          ),
                         ),
                       ),
                     ),
@@ -140,7 +151,7 @@ class _ArticleDetailPageViewState extends State<ArticleDetailPageView> {
                 ),
               ],
             ),
-            padding: EdgeInsets.fromLTRB(10, 6, 10, 30),
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 30),
           ),
         ],
       ),
