@@ -63,9 +63,11 @@ class _FeedTabViewState extends State<FeedTabView> {
         itemDataList.add(itemData);
       }
 
-      setState(() {
-        _dataList = itemDataList;
-      });
+      if (this.mounted) {
+        setState(() {
+          _dataList = itemDataList;
+        });
+      }
 
       // if failed,use refreshFailed()
       _refreshController.refreshCompleted();

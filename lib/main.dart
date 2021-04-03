@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -53,6 +53,8 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   TabController controller;
 
+  int _currentSelectedTabIndex = 0;
+
   final pages = [
     FeedTabView(),
     NodeTabView("视频"),
@@ -77,21 +79,87 @@ class _MyHomePageState extends State<MyHomePage>
     return new MaterialApp(
       home: new Scaffold(
         appBar: new AppBar(
-          title: new Text("首页"),
+          title: new Text(
+            "首页",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.white,
         ),
         body: new TabBarView(controller: controller, children: pages),
         bottomNavigationBar: Container(
-          color: Colors.blue,
+          color: Colors.white,
           child: SafeArea(
             child: new Material(
-              color: Colors.blue,
+              color: Colors.white,
               child: new TabBar(
                 controller: controller,
+                labelColor: Colors.red,
+                unselectedLabelColor: Colors.black54,
+                indicatorColor: Colors.red,
+                onTap: (int index) {
+                  print("TabBar click index = $index");
+
+                  setState(() {
+                    _currentSelectedTabIndex = index;
+                  });
+                },
                 tabs: <Tab>[
-                  new Tab(text: "首页", icon: new Icon(Icons.home)),
-                  new Tab(text: "视频", icon: new Icon(Icons.find_in_page)),
-                  new Tab(text: "圈子", icon: new Icon(Icons.message)),
-                  new Tab(text: "我的", icon: new Icon(Icons.person))
+                  new Tab(
+                    text: "首页",
+                    icon: (0 == _currentSelectedTabIndex)
+                        ? new Image.asset(
+                            'images/afv.png',
+                            width: 24,
+                            height: 24,
+                          )
+                        : new Image.asset(
+                            'images/aft.png',
+                            width: 24,
+                            height: 24,
+                          ),
+                  ),
+                  new Tab(
+                    text: "视频",
+                    icon: (1 == _currentSelectedTabIndex)
+                        ? new Image.asset(
+                            'images/afz.png',
+                            width: 24,
+                            height: 24,
+                          )
+                        : new Image.asset(
+                            'images/afy.png',
+                            width: 24,
+                            height: 24,
+                          ),
+                  ),
+                  new Tab(
+                    text: "圈子",
+                    icon: (2 == _currentSelectedTabIndex)
+                        ? new Image.asset(
+                            'images/afq.png',
+                            width: 24,
+                            height: 24,
+                          )
+                        : Image.asset(
+                            'images/afp.png',
+                            width: 24,
+                            height: 24,
+                          ),
+                  ),
+                  new Tab(
+                    text: "我的",
+                    icon: (3 == _currentSelectedTabIndex)
+                        ? new Image.asset(
+                            'images/afx.png',
+                            width: 24,
+                            height: 24,
+                          )
+                        : Image.asset(
+                            'images/afw.png',
+                            width: 24,
+                            height: 24,
+                          ),
+                  )
                 ],
                 indicatorWeight: 0.1,
               ),
