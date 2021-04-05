@@ -124,37 +124,97 @@ class _FeedTabViewState extends State<FeedTabView> {
     });
   }
 
+  /// 自定义顶部标题栏
+  Widget buildCustomTitleView() {
+    return Container(
+      color: Colors.red,
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      child: SafeArea(
+        child: Container(
+          child: Row(
+            children: [
+              // Logo
+              Image.asset(
+                'images/logo.png',
+                width: 72,
+                height: 72,
+              ),
+              // Search
+              Expanded(
+                child: Container(
+                  color: Colors.blue,
+                ),
+                flex: 1,
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'images/skin1_news_main_message_box_icon.png',
+                      width: 36,
+                      height: 36,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Image.asset(
+                      'images/skin1_news_main_message_box_icon.png',
+                      width: 36,
+                      height: 36,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: true,
-        header: ClassicHeader(), //WaterDropHeader(),
-        footer: CustomFooter(
-          builder: (BuildContext context, LoadStatus mode) {
-            Widget body;
-            if (mode == LoadStatus.idle) {
-              body = Text("pull up load");
-            } else if (mode == LoadStatus.loading) {
-              body = CupertinoActivityIndicator();
-            } else if (mode == LoadStatus.failed) {
-              body = Text("Load Failed!Click retry!");
-            } else if (mode == LoadStatus.canLoading) {
-              body = Text("release to load more");
-            } else {
-              body = Text("No more Data");
-            }
-            return Container(
-              height: 55.0,
-              child: Center(child: body),
-            );
-          },
-        ),
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        child: buildListView(),
+    return Container(
+      child: Column(
+        children: [
+          buildCustomTitleView(),
+          Expanded(
+            flex: 1,
+            child: Scaffold(
+              body: SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: true,
+                header: ClassicHeader(), //WaterDropHeader(),
+                footer: CustomFooter(
+                  builder: (BuildContext context, LoadStatus mode) {
+                    Widget body;
+                    if (mode == LoadStatus.idle) {
+                      body = Text("pull up load");
+                    } else if (mode == LoadStatus.loading) {
+                      body = CupertinoActivityIndicator();
+                    } else if (mode == LoadStatus.failed) {
+                      body = Text("Load Failed!Click retry!");
+                    } else if (mode == LoadStatus.canLoading) {
+                      body = Text("release to load more");
+                    } else {
+                      body = Text("No more Data");
+                    }
+                    return Container(
+                      height: 55.0,
+                      child: Center(child: body),
+                    );
+                  },
+                ),
+                controller: _refreshController,
+                onRefresh: _onRefresh,
+                onLoading: _onLoading,
+                child: buildListView(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

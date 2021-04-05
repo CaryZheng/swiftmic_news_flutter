@@ -78,13 +78,13 @@ class _MyHomePageState extends State<MyHomePage>
   Widget build(BuildContext context) {
     return new MaterialApp(
       home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text(
-            "首页",
-            style: TextStyle(color: Colors.black),
-          ),
-          backgroundColor: Colors.white,
-        ),
+        // appBar: new AppBar(
+        //   title: new Text(
+        //     "首页",
+        //     style: TextStyle(color: Colors.black),
+        //   ),
+        //   backgroundColor: Colors.white,
+        // ),
         body: new TabBarView(controller: controller, children: pages),
         bottomNavigationBar: Container(
           color: Colors.white,
@@ -93,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage>
               color: Colors.white,
               child: new TabBar(
                 controller: controller,
+                indicator: BoxDecoration(),
                 labelColor: Colors.red,
                 unselectedLabelColor: Colors.black54,
                 indicatorColor: Colors.red,
