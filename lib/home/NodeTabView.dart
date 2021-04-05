@@ -16,16 +16,19 @@ class _NodeTabViewState extends State<NodeTabView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              print("http请求 btn clicked");
-              fetchData();
-            },
-            child: Text("http请求"),
-          ),
-        ],
+      color: Colors.black,
+      child: SafeArea(
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                print("http请求 btn clicked");
+                fetchData();
+              },
+              child: Text("http请求"),
+            ),
+          ],
+        ),
       ),
     );
   }
