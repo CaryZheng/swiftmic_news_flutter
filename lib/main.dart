@@ -85,7 +85,11 @@ class _MyHomePageState extends State<MyHomePage>
         //   ),
         //   backgroundColor: Colors.white,
         // ),
-        body: new TabBarView(controller: controller, children: pages),
+        body: new TabBarView(
+          controller: controller,
+          children: pages,
+          physics: NeverScrollableScrollPhysics(),
+        ),
         bottomNavigationBar: Container(
           color: Colors.white,
           child: SafeArea(
