@@ -14,7 +14,11 @@ class FeedTabView extends StatefulWidget {
   _FeedTabViewState createState() => _FeedTabViewState();
 }
 
-class _FeedTabViewState extends State<FeedTabView> {
+class _FeedTabViewState extends State<FeedTabView>
+    with AutomaticKeepAliveClientMixin {
+  @protected
+  bool get wantKeepAlive => true;
+
   List<HomeFeedItemData> _dataList = [];
   int _currentFetchPageIndex = 0;
   final int _pageSize = 10;
