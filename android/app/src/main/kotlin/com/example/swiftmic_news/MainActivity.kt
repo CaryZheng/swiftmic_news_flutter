@@ -1,4 +1,4 @@
-package com.example.swiftmic_news
+package com.zzb.swiftmic_news
 
 import io.flutter.embedding.android.FlutterActivity
 
