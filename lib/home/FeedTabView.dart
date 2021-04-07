@@ -178,12 +178,51 @@ class _FeedTabViewState extends State<FeedTabView>
     );
   }
 
+  Widget buildMenuView() {
+    List<String> titles = [
+      "关注",
+      "头条",
+      "抗疫",
+      "视频",
+      "数码",
+      "新时代",
+      "旅游",
+      "上海",
+      "财经",
+      "科技",
+      "汽车"
+    ];
+    ListView listView = ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: titles.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          width: 60,
+          alignment: Alignment.center,
+          child: Text(
+            titles.elementAt(index),
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.black,
+            ),
+          ),
+        );
+      },
+    );
+
+    return Container(
+      height: 40,
+      child: listView,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
           buildCustomTitleView(),
+          buildMenuView(),
           Expanded(
             flex: 1,
             child: Scaffold(
