@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swiftmic_news/home/FeedTabView.dart';
+import 'package:swiftmic_news/home/MainPage.dart';
 import 'package:swiftmic_news/home/MeTabView.dart';
 import 'package:swiftmic_news/home/MessageCenterTabView.dart';
 import 'package:swiftmic_news/home/NodeTabView.dart';
