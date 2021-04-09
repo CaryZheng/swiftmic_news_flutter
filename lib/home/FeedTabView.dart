@@ -199,7 +199,39 @@ class _FeedTabViewState extends State<FeedTabView>
               // Search
               Expanded(
                 child: Container(
-                  color: Colors.blue,
+                  padding: EdgeInsets.fromLTRB(4, 8, 4, 8),
+                  child: TextField(
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
+                    decoration: InputDecoration(
+                      prefixIcon: Image.asset('images/aco.png'),
+                      filled: true,
+                      fillColor: Color(0xFFCC2B32),
+                      contentPadding: EdgeInsets.all(10),
+                      hintText: "输入内容",
+                      hintStyle: TextStyle(color: Colors.white, fontSize: 14),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFFCC2B32)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(40.0),
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFFCC2B32)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(40.0),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFFCC2B32)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(40.0),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 flex: 1,
               ),
