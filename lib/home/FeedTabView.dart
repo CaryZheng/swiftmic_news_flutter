@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:swiftmic_news/api/ApiManager.dart';
 import 'package:swiftmic_news/article/ArticleDetailPageView.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:swiftmic_news/feed/BodyPageView.dart';
 import 'package:swiftmic_news/feed/HomeFeedItemData.dart';
 import 'package:swiftmic_news/feed/HomeFeedItemView.dart';
 import 'dart:convert';
+import 'package:swiftmic_news/helper/AliveKeeper.dart';
 
 typedef OnNetworkCallback = void Function(String response, {String tag});
 
@@ -17,7 +17,7 @@ class FeedTabView extends StatefulWidget {
 
 class _FeedTabViewState extends State<FeedTabView>
     with AutomaticKeepAliveClientMixin {
-  @protected
+  @override
   bool get wantKeepAlive => true;
 
   List<HomeFeedItemData> _dataList = [];
@@ -327,8 +327,42 @@ class _FeedTabViewState extends State<FeedTabView>
         duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
   }
 
+  Widget buildContentView() {
+    return SmartRefresher(
+      enablePullDown: true,
+      enablePullUp: true,
+      header: ClassicHeader(), //WaterDropHeader(),
+      footer: CustomFooter(
+        builder: (BuildContext context, LoadStatus mode) {
+          Widget body;
+          if (mode == LoadStatus.idle) {
+            body = Text("pull up load");
+          } else if (mode == LoadStatus.loading) {
+            body = CupertinoActivityIndicator();
+          } else if (mode == LoadStatus.failed) {
+            body = Text("Load Failed!Click retry!");
+          } else if (mode == LoadStatus.canLoading) {
+            body = Text("release to load more");
+          } else {
+            body = Text("No more Data");
+          }
+          return Container(
+            height: 55.0,
+            child: Center(child: body),
+          );
+        },
+      ),
+      controller: _refreshController,
+      onRefresh: _onRefresh,
+      onLoading: _onLoading,
+      child: buildListView(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Container(
       child: Column(
         children: [
@@ -336,46 +370,21 @@ class _FeedTabViewState extends State<FeedTabView>
           buildMenuView(),
           Expanded(
             flex: 1,
-            child: BodyPageView(
-              datas: _menuTitles,
-              pageController: _pageController,
-              pageChangeCall: onPageChanged,
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: _menuTitles.length,
+              onPageChanged: onPageChanged,
+              itemBuilder: (context, index) {
+                String data = _menuTitles.elementAt(index);
+
+                if (0 == index) {
+                  return AliveKeeper(child: buildContentView());
+                }
+
+                return Text("index = $index, datas = $data");
+              },
             ),
           ),
-          // Expanded(
-          //   flex: 1,
-          //   child: Scaffold(
-          //     body: SmartRefresher(
-          //       enablePullDown: true,
-          //       enablePullUp: true,
-          //       header: ClassicHeader(), //WaterDropHeader(),
-          //       footer: CustomFooter(
-          //         builder: (BuildContext context, LoadStatus mode) {
-          //           Widget body;
-          //           if (mode == LoadStatus.idle) {
-          //             body = Text("pull up load");
-          //           } else if (mode == LoadStatus.loading) {
-          //             body = CupertinoActivityIndicator();
-          //           } else if (mode == LoadStatus.failed) {
-          //             body = Text("Load Failed!Click retry!");
-          //           } else if (mode == LoadStatus.canLoading) {
-          //             body = Text("release to load more");
-          //           } else {
-          //             body = Text("No more Data");
-          //           }
-          //           return Container(
-          //             height: 55.0,
-          //             child: Center(child: body),
-          //           );
-          //         },
-          //       ),
-          //       controller: _refreshController,
-          //       onRefresh: _onRefresh,
-          //       onLoading: _onLoading,
-          //       child: buildListView(),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
