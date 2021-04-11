@@ -5,7 +5,8 @@ class ArticleDetailPageView extends StatefulWidget {
   _ArticleDetailPageViewState createState() => _ArticleDetailPageViewState();
 }
 
-class _ArticleDetailPageViewState extends State<ArticleDetailPageView> {
+class _ArticleDetailPageViewState extends State<ArticleDetailPageView>
+    with SingleTickerProviderStateMixin {
   final String sampleText = """
 中国经济周刊-经济网讯 近日，山东省冠县人民法院在执行一起案件中，依法公开拍卖一个尾号为55555的手机号码，成交价高达120多万元。
 
@@ -19,6 +20,21 @@ class _ArticleDetailPageViewState extends State<ArticleDetailPageView> {
 
 对此，有网友说，“这尾号听上去有点委屈…… ”也有网友表示，千万别买这种号码，以前就有个看起来不错的号码，结果天天被骚扰，一天十几个电话，人都快炸了；还有网友发出质疑，“这号好吗？跟哭似的……”
   """;
+
+  // bool _isShowCommentPageView = false;
+  AnimationController _animationController;
+  Animation<Offset> _animation;
+
+  _ArticleDetailPageViewState() {
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 200));
+    _animationController.addStatusListener((status) {
+      print("status = $status");
+    });
+
+    _animation = Tween(begin: Offset(1, 0), end: Offset(0, 0))
+        .animate(_animationController);
+  }
 
   Widget getBodyContentView() {
     return Column(
@@ -36,13 +52,21 @@ class _ArticleDetailPageViewState extends State<ArticleDetailPageView> {
           padding: EdgeInsets.all(10),
           child: Row(
             children: [
-              ClipOval(
-                child: Image.asset(
-                  'images/item_images_test.png',
-                  width: 50,
-                  height: 50,
-                  fit: BoxFit.cover,
+              InkWell(
+                child: ClipOval(
+                  child: Image.asset(
+                    'images/item_images_test.png',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  ),
                 ),
+                onTap: () {
+                  _animationController.forward();
+                  // setState(() {
+                  //   _isShowCommentPageView = true;
+                  // });
+                },
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,70 +115,156 @@ class _ArticleDetailPageViewState extends State<ArticleDetailPageView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("帖子详情"),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 1,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: getBodyContentView(),
-            ),
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            title: Text("帖子详情"),
+            backgroundColor: Colors.red,
           ),
-          Container(
-            color: Colors.blue,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 80,
-                  height: 40,
-                  child: Container(
-                    child: TextField(
-                      style: TextStyle(
-                        fontSize: 12,
-                      ),
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(10),
-                        hintText: "写跟帖",
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
+          body: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: GestureDetector(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: getBodyContentView(),
+                  ),
+                  onHorizontalDragUpdate: (DragUpdateDetails details) {
+                    double dx = details.delta.dx;
+                    print("dx = $dx");
+                    if (dx < -15) {
+                      _animationController.forward();
+
+                      // setState(() {
+                      //   _isShowCommentPageView = true;
+                      // });
+                    }
+                  },
+                  // onPanDown: (DragDownDetails e) {
+                  //   print("GestureDetector onPanDown DragDownDetails = $e");
+                  // },
+                  // onPanUpdate: (DragUpdateDetails e) {
+                  //   print("GestureDetector onPanUpdate DragUpdateDetails = $e");
+                  // },
+                  // onPanEnd: (DragEndDetails e) {
+                  //   print("GestureDetector onPanUpdate DragEndDetails = $e");
+                  // },
+                ),
+              ),
+              Container(
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 80,
+                      height: 40,
+                      child: Container(
+                        child: TextField(
+                          style: TextStyle(
+                            fontSize: 12,
                           ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(10),
+                            hintText: "写跟帖",
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
+                    Text(
+                      "\uE000",
+                      style: TextStyle(
+                          fontFamily: "MaterialIcons",
+                          fontSize: 24,
+                          color: Colors.red),
+                    ),
+                    Text(
+                      "\uE000",
+                      style: TextStyle(
+                          fontFamily: "MaterialIcons",
+                          fontSize: 24,
+                          color: Colors.red),
+                    ),
+                  ],
+                ),
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 30),
+              ),
+            ],
+          ),
+        ),
+        SlideTransition(
+          position: _animation,
+          child: GestureDetector(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Scaffold(
+                appBar: AppBar(
+                  title: Text("评论详情"),
+                  backgroundColor: Colors.red,
+                  leading: InkWell(
+                    child: Icon(Icons.arrow_back_ios),
+                    onTap: () {
+                      _animationController.reverse();
+
+                      // setState(() {
+                      //   _isShowCommentPageView = false;
+                      // });
+                    },
                   ),
                 ),
-                Text(
-                  "\uE000",
-                  style: TextStyle(
-                      fontFamily: "MaterialIcons",
-                      fontSize: 24,
-                      color: Colors.red),
+                body: Column(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          children: [
+                            Text("0-1234567890qwertyuiopasdfghjklzxcvbnm"),
+                            Text("1-1234567890qwertyuiopasdfghjklzxcvbnm"),
+                            Text("2-1234567890qwertyuiopasdfghjklzxcvbnm"),
+                            Text("3-1234567890qwertyuiopasdfghjklzxcvbnm"),
+                            Text("4-1234567890qwertyuiopasdfghjklzxcvbnm"),
+                            Text("5-1234567890qwertyuiopasdfghjklzxcvbnm"),
+                            Text("6-1234567890qwertyuiopasdfghjklzxcvbnm"),
+                            Text("7-1234567890qwertyuiopasdfghjklzxcvbnm"),
+                            Text("8-1234567890qwertyuiopasdfghjklzxcvbnm"),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  "\uE000",
-                  style: TextStyle(
-                      fontFamily: "MaterialIcons",
-                      fontSize: 24,
-                      color: Colors.red),
-                ),
-              ],
+              ),
             ),
-            padding: EdgeInsets.fromLTRB(10, 10, 10, 30),
+            onHorizontalDragUpdate: (DragUpdateDetails details) {
+              double dx = details.delta.dx;
+              print("CommentPageView dx = $dx");
+              if (dx > 15) {
+                _animationController.reverse();
+
+                // setState(() {
+                //   _isShowCommentPageView = false;
+                // });
+              }
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
