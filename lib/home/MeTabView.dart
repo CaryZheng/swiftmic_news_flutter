@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swiftmic_news/helper/UserManager.dart';
 
 class MeTabView extends StatefulWidget {
   final String _title;
@@ -22,6 +23,12 @@ class _MeTabViewState extends State<MeTabView> {
   Color test3Color = Color.fromRGBO(0, 0, 0, 1);
 
   bool _show = false;
+
+  bool _isSignin = false;
+
+  _MeTabViewState() {
+    _isSignin = UserManager.getInstanse().isSignin();
+  }
 
   Widget buildNumberWithTextView(int number, String text) {
     return Container(
@@ -146,6 +153,64 @@ class _MeTabViewState extends State<MeTabView> {
     return container;
   }
 
+  Widget buildSigninView() {
+    return Row(
+      children: [
+        Container(
+          child: ClipOval(
+            child: Image.asset(
+              'images/item_images_test.png',
+              width: 80,
+              height: 80,
+              fit: BoxFit.cover,
+            ),
+          ),
+          padding: EdgeInsets.all(20),
+        ),
+        Column(
+          children: [
+            Text(
+              "CaryZheng",
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget buildNoSigninView() {
+    return Row(
+      children: [
+        Container(
+          child: ClipOval(
+            child: Image.asset(
+              'images/item_images_test.png',
+              width: 80,
+              height: 80,
+              fit: BoxFit.cover,
+            ),
+          ),
+          padding: EdgeInsets.all(20),
+        ),
+        Column(
+          children: [
+            Text(
+              "未登录",
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -211,30 +276,7 @@ class _MeTabViewState extends State<MeTabView> {
                   ),
                 ],
               ),
-              Row(children: [
-                Container(
-                  child: ClipOval(
-                    child: Image.asset(
-                      'images/item_images_test.png',
-                      width: 80,
-                      height: 80,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  padding: EdgeInsets.all(20),
-                ),
-                Column(
-                  children: [
-                    Text(
-                      "CaryZheng",
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                )
-              ]),
+              _isSignin ? buildSigninView() : buildNoSigninView(),
               Row(children: [
                 Expanded(
                   child: buildNumberWithTextView(0, "动态"),
@@ -278,7 +320,9 @@ class _MeTabViewState extends State<MeTabView> {
                       String token = prefs.getString("token");
                       print("1 token = $token");
 
-                      prefs.setString("token", "poqwertiuy");
+                      prefs.setString("token", "poqwertiuy").then((success) {
+                        print("33 success = $success");
+                      });
 
                       String token2 = prefs.getString("token");
                       print("2 token = $token2");
