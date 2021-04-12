@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MeTabView extends StatefulWidget {
   final String _title;
@@ -268,8 +269,23 @@ class _MeTabViewState extends State<MeTabView> {
               ),
               buildGroupMenu(
                   titles: ["深色模式", "意见反馈", "我的会员"],
-                  onClicked: (int index) {
+                  onClicked: (int index) async {
                     print("a index = $index");
+
+                    if (0 == index) {
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      String token = prefs.getString("token");
+                      print("1 token = $token");
+
+                      prefs.setString("token", "poqwertiuy");
+
+                      String token2 = prefs.getString("token");
+                      print("2 token = $token2");
+
+                      return;
+                    }
+
                     if (0 == index) {
                       // AnimatedContainer container = AnimatedContainer(
                       //   duration: Duration(seconds: 3),
