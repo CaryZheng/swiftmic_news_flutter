@@ -211,6 +211,63 @@ class _MeTabViewState extends State<MeTabView> {
     );
   }
 
+  Widget buildSigninCountView() {
+    return Row(children: [
+      Expanded(
+        child: buildNumberWithTextView(0, "动态"),
+      ),
+      Expanded(
+        child: buildNumberWithTextView(1, "跟帖"),
+      ),
+      Expanded(
+        child: buildNumberWithTextView(32, "收藏/推荐"),
+      ),
+      Expanded(
+        child: buildNumberWithTextView(105813, "历史"),
+      ),
+    ]);
+  }
+
+  Widget buildNoSigninCountView() {
+    return Row(children: [
+      Expanded(
+        child: buildNoSigninCountItemView("aen", "动态"),
+      ),
+      Expanded(
+        child: buildNoSigninCountItemView("aep", "跟帖"),
+      ),
+      Expanded(
+        child: buildNoSigninCountItemView("agf", "收藏/推荐"),
+      ),
+      Expanded(
+        child: buildNoSigninCountItemView("agi", "历史"),
+      ),
+    ]);
+  }
+
+  Widget buildNoSigninCountItemView(String iconName, String text) {
+    return Container(
+      child: Column(
+        children: [
+          Image.asset(
+            'images/$iconName.png',
+            width: 30,
+            height: 30,
+          ),
+          SizedBox(
+            height: 4,
+          ),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -237,7 +294,7 @@ class _MeTabViewState extends State<MeTabView> {
                     child: Row(
                       children: [
                         Image.asset(
-                          'images/skin0_news_main_message_box_icon.png',
+                          'images/a6h.png',
                           width: 20,
                           height: 20,
                         ),
@@ -277,20 +334,7 @@ class _MeTabViewState extends State<MeTabView> {
                 ],
               ),
               _isSignin ? buildSigninView() : buildNoSigninView(),
-              Row(children: [
-                Expanded(
-                  child: buildNumberWithTextView(0, "动态"),
-                ),
-                Expanded(
-                  child: buildNumberWithTextView(1, "跟帖"),
-                ),
-                Expanded(
-                  child: buildNumberWithTextView(32, "收藏/推荐"),
-                ),
-                Expanded(
-                  child: buildNumberWithTextView(105813, "历史"),
-                ),
-              ]),
+              _isSignin ? buildSigninCountView() : buildNoSigninCountView(),
               Container(
                 margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 padding: EdgeInsets.all(10),
@@ -326,6 +370,12 @@ class _MeTabViewState extends State<MeTabView> {
 
                       String token2 = prefs.getString("token");
                       print("2 token = $token2");
+
+                      UserManager.getInstanse().token = "poiqwer";
+
+                      setState(() {
+                        _isSignin = true;
+                      });
 
                       return;
                     }
