@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swiftmic_news/api/ApiManager.dart';
 import 'package:swiftmic_news/helper/UserManager.dart';
 
 class MeTabView extends StatefulWidget {
@@ -26,8 +29,45 @@ class _MeTabViewState extends State<MeTabView> {
 
   bool _isSignin = false;
 
+  ApiManager _apiManager = new ApiManager();
+
+  String _username = "";
+  int _activityCount = 0;
+  int _commentCount = 0;
+  int _collectCount = 0;
+  int _historyCount = 0;
+
   _MeTabViewState() {
     _isSignin = UserManager.getInstanse().isSignin();
+
+    if (_isSignin) {
+      _apiManager.fetchUserInfo(
+          onNetworkCallback: (String response, {String tag}) {
+        print("onNetworkCallback response = $response");
+
+        Map<String, dynamic> responseBody = jsonDecode(response);
+        int code = responseBody['code'];
+        String message = responseBody['message'];
+
+        print("code = $code");
+        print("message = $message");
+
+        Map data = responseBody['data'];
+        String username = data["name"];
+        int activityCount = data["activityCount"];
+        int commentCount = data["commentCount"];
+        int collectCount = data["collectCount"];
+        int historyCount = data["historyCount"];
+
+        setState(() {
+          _username = username;
+          _activityCount = activityCount;
+          _commentCount = commentCount;
+          _collectCount = collectCount;
+          _historyCount = historyCount;
+        });
+      });
+    }
   }
 
   Widget buildNumberWithTextView(int number, String text) {
@@ -170,7 +210,7 @@ class _MeTabViewState extends State<MeTabView> {
         Column(
           children: [
             Text(
-              "CaryZheng",
+              _username,
               style: TextStyle(
                   fontSize: 20,
                   color: Colors.black,
@@ -233,16 +273,16 @@ class _MeTabViewState extends State<MeTabView> {
   Widget buildSigninCountView() {
     return Row(children: [
       Expanded(
-        child: buildNumberWithTextView(0, "动态"),
+        child: buildNumberWithTextView(_activityCount, "动态"),
       ),
       Expanded(
-        child: buildNumberWithTextView(1, "跟帖"),
+        child: buildNumberWithTextView(_commentCount, "跟帖"),
       ),
       Expanded(
-        child: buildNumberWithTextView(32, "收藏/推荐"),
+        child: buildNumberWithTextView(_collectCount, "收藏/推荐"),
       ),
       Expanded(
-        child: buildNumberWithTextView(105813, "历史"),
+        child: buildNumberWithTextView(_historyCount, "历史"),
       ),
     ]);
   }

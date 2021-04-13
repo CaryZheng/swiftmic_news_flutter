@@ -1,0 +1,11 @@
+{
+    "code": 200,
+    "message": "Success",
+    "data": {
+        "name": "Tony",
+        "activityCount": 1,
+        "commentCount": 2,
+        "collectCount": 33,
+        "historyCount": 105814
+    }
+}
