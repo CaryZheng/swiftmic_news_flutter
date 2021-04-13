@@ -183,31 +183,50 @@ class _MeTabViewState extends State<MeTabView> {
   }
 
   Widget buildNoSigninView() {
-    return Row(
-      children: [
-        Container(
-          child: ClipOval(
-            child: Image.asset(
-              'images/item_images_test.png',
-              width: 80,
-              height: 80,
-              fit: BoxFit.cover,
-            ),
+    return Container(
+      margin: EdgeInsets.fromLTRB(0, 30, 0, 30),
+      child: TextButton(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+                side: BorderSide(width: 0.5, color: Colors.red),
+                borderRadius: BorderRadius.circular(20)),
           ),
-          padding: EdgeInsets.all(20),
+          backgroundColor: MaterialStateProperty.all(Colors.red),
+          padding: MaterialStateProperty.all(
+            EdgeInsets.fromLTRB(50, 10, 50, 10),
+          ),
         ),
-        Column(
-          children: [
-            Text(
-              "未登录",
-              style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold),
-            ),
-          ],
-        )
-      ],
+        onPressed: () async {
+          print("登录 btn clicked");
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          // String token = prefs.getString("token");
+          // print("1 token = $token");
+
+          UserManager.getInstanse().token = "poiqwer";
+
+          prefs
+              .setString("token", UserManager.getInstanse().token)
+              .then((success) {
+            print(
+                "Save token local success = $success, token = ${UserManager.getInstanse().token}");
+          });
+
+          // String token2 = prefs.getString("token");
+          // print("2 token = $token2");
+
+          setState(() {
+            _isSignin = true;
+          });
+        },
+        child: Text(
+          "登录",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          ),
+        ),
+      ),
     );
   }
 
@@ -355,30 +374,8 @@ class _MeTabViewState extends State<MeTabView> {
               ),
               buildGroupMenu(
                   titles: ["深色模式", "意见反馈", "我的会员"],
-                  onClicked: (int index) async {
+                  onClicked: (int index) {
                     print("a index = $index");
-
-                    if (0 == index) {
-                      final SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      String token = prefs.getString("token");
-                      print("1 token = $token");
-
-                      prefs.setString("token", "poqwertiuy").then((success) {
-                        print("33 success = $success");
-                      });
-
-                      String token2 = prefs.getString("token");
-                      print("2 token = $token2");
-
-                      UserManager.getInstanse().token = "poiqwer";
-
-                      setState(() {
-                        _isSignin = true;
-                      });
-
-                      return;
-                    }
 
                     if (0 == index) {
                       // AnimatedContainer container = AnimatedContainer(
