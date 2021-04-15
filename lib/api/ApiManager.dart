@@ -26,4 +26,14 @@ class ApiManager {
     String response = await getJson("json/user_info.json");
     onNetworkCallback(utf8.decode(response.runes.toList()), tag: tag);
   }
+
+  void fetchFeedHeadList(int startPageIndex, int pageSize,
+      {tag: "", onNetworkCallback: OnNetworkCallback}) async {
+    await Future.delayed(Duration(milliseconds: 500));
+
+    String response = await getJson("json/feeds_head.json");
+    print("111 response = $response");
+    onNetworkCallback(response, tag: tag);
+    // onNetworkCallback(utf8.decode(response.runes.toList()), tag: tag);
+  }
 }

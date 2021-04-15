@@ -7,6 +7,7 @@ import 'package:swiftmic_news/feed/HomeFeedItemData.dart';
 import 'package:swiftmic_news/feed/HomeFeedItemView.dart';
 import 'dart:convert';
 import 'package:swiftmic_news/helper/AliveKeeper.dart';
+import 'package:swiftmic_news/helper/EnumHelper.dart';
 
 typedef OnNetworkCallback = void Function(String response, {String tag});
 
@@ -86,7 +87,7 @@ class _FeedTabViewState extends State<FeedTabView>
 
     _currentFetchPageIndex = 0;
 
-    _apiManager.fetchFeedList(_currentFetchPageIndex, _pageSize,
+    _apiManager.fetchFeedHeadList(_currentFetchPageIndex, _pageSize,
         tag: _currentFetchPageIndex.toString(),
         onNetworkCallback: (String response, {String tag}) {
       print("onNetworkCallback response = $response");
@@ -98,7 +99,7 @@ class _FeedTabViewState extends State<FeedTabView>
       print("code = $code");
       print("message = $message");
 
-      List<dynamic> dataList = responseBody['data'];
+      List<dynamic> dataList = responseBody['data']["items"];
 
       print("dataList = $dataList");
 
@@ -107,14 +108,24 @@ class _FeedTabViewState extends State<FeedTabView>
       for (Map element in dataList) {
         HomeFeedItemData itemData = HomeFeedItemData();
 
-        String author = element['author'];
+        String author = element['source'];
         String title = element['title'];
-        int commentCount = element['commentCount'];
+        int commentCount = element['replyCount'];
+        String videoCover = element["videoCover"];
+        int videoTime = element['videoTime'];
+        ItemType itemType = EnumHelper.getItemType(element['type']);
 
+        itemData.itemType = itemType;
         itemData.authorName = author;
         itemData.title = title;
         itemData.commentCount = commentCount;
-        itemData.itemType = ItemType.text;
+        itemData.videoCover = videoCover;
+        itemData.videoTime = videoTime;
+
+        var images = element['images'];
+        if (null != images) {
+          itemData.images = images.cast<String>();
+        }
 
         itemDataList.add(itemData);
       }
@@ -136,7 +147,7 @@ class _FeedTabViewState extends State<FeedTabView>
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
     int startPageIndex = _currentFetchPageIndex + 1;
-    _apiManager.fetchFeedList(startPageIndex, _pageSize,
+    _apiManager.fetchFeedHeadList(startPageIndex, _pageSize,
         tag: startPageIndex.toString(),
         onNetworkCallback: (String response, {String tag}) {
       print("onNetworkCallback response = $response");
@@ -148,7 +159,7 @@ class _FeedTabViewState extends State<FeedTabView>
       print("code = $code");
       print("message = $message");
 
-      List<dynamic> dataList = responseBody['data'];
+      List<dynamic> dataList = responseBody['data']["items"];
 
       print("dataList = $dataList");
 
@@ -157,14 +168,24 @@ class _FeedTabViewState extends State<FeedTabView>
       for (Map element in dataList) {
         HomeFeedItemData itemData = HomeFeedItemData();
 
-        String author = element['author'];
+        String author = element['source'];
         String title = element['title'];
-        int commentCount = element['commentCount'];
+        int commentCount = element['replyCount'];
+        String videoCover = element["videoCover"];
+        int videoTime = element['videoTime'];
+        ItemType itemType = EnumHelper.getItemType(element['type']);
 
+        itemData.itemType = itemType;
         itemData.authorName = author;
         itemData.title = title;
         itemData.commentCount = commentCount;
-        itemData.itemType = ItemType.text;
+        itemData.videoCover = videoCover;
+        itemData.videoTime = videoTime;
+
+        var images = element['images'];
+        if (null != images) {
+          itemData.images = images.cast<String>();
+        }
 
         itemDataList.add(itemData);
       }
