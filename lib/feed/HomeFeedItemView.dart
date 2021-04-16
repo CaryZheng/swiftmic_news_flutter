@@ -90,7 +90,7 @@ class _HomeFeedItemViewState extends State<HomeFeedItemView> {
   Widget getItemViewWithTextImages() {
     double imageWidth =
         (MediaQuery.of(context).size.width - 10 * 2 - 4 * 10) / 3.0;
-    double imageHeight = imageWidth * 0.8;
+    double imageHeight = imageWidth * 0.75;
 
     return InkWell(
       child: Container(
@@ -179,6 +179,9 @@ class _HomeFeedItemViewState extends State<HomeFeedItemView> {
   }
 
   Widget getItemViewWithVideo() {
+    final double imageWidth = 110;
+    final double imageHeight = imageWidth * 0.75;
+
     return InkWell(
       child: Container(
         margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -192,11 +195,17 @@ class _HomeFeedItemViewState extends State<HomeFeedItemView> {
               children: [
                 Expanded(
                   flex: 1,
-                  child: Text(
-                    widget._data.title,
-                    style: TextStyle(fontSize: 18, color: Colors.black),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
+                  child: Container(
+                    height: imageHeight,
+                    child: Text(
+                      widget._data.title,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -211,8 +220,8 @@ class _HomeFeedItemViewState extends State<HomeFeedItemView> {
                         FadeInImage.assetNetwork(
                           placeholder: "images/item_images_test.png",
                           image: widget._data.videoCover,
-                          width: 130,
-                          height: 104,
+                          width: imageWidth,
+                          height: imageHeight,
                           fit: BoxFit.cover,
                         ),
                         Image.asset(
@@ -266,6 +275,9 @@ class _HomeFeedItemViewState extends State<HomeFeedItemView> {
   }
 
   Widget getItemViewWithTextImageOne() {
+    final double imageWidth = 110;
+    final double imageHeight = imageWidth * 0.75;
+
     return InkWell(
       child: Container(
         margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -279,11 +291,17 @@ class _HomeFeedItemViewState extends State<HomeFeedItemView> {
               children: [
                 Expanded(
                   flex: 1,
-                  child: Text(
-                    widget._data.title,
-                    style: TextStyle(fontSize: 18, color: Colors.black),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
+                  child: Container(
+                    height: imageHeight,
+                    child: Text(
+                      widget._data.title,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -294,8 +312,8 @@ class _HomeFeedItemViewState extends State<HomeFeedItemView> {
                     FadeInImage.assetNetwork(
                       placeholder: "images/item_images_test.png",
                       image: widget._data.images.elementAt(0),
-                      width: 130,
-                      height: 100,
+                      width: imageWidth,
+                      height: imageHeight,
                       fit: BoxFit.cover,
                     ),
                   ],
