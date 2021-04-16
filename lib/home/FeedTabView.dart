@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:swiftmic_news/api/ApiManager.dart';
 import 'package:swiftmic_news/article/ArticleDetailPageView.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:swiftmic_news/article/VideoDetailPage.dart';
 import 'package:swiftmic_news/feed/HomeFeedItemData.dart';
 import 'package:swiftmic_news/feed/HomeFeedItemView.dart';
 import 'dart:convert';
@@ -464,7 +465,8 @@ class _FeedTabViewState extends State<FeedTabView>
       // 跳转到详情页面
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ArticleDetailPageView()),
+        // MaterialPageRoute(builder: (context) => ArticleDetailPageView()),
+        MaterialPageRoute(builder: (context) => VideoDetailPage()),
       );
     });
   }
