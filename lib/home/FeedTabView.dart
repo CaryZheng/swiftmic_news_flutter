@@ -291,6 +291,7 @@ class _FeedTabViewState extends State<FeedTabView>
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
           child: Container(
+            color: Colors.white,
             key: keys[index],
             width: 70,
             alignment: Alignment.center,
@@ -417,6 +418,7 @@ class _FeedTabViewState extends State<FeedTabView>
     super.build(context);
 
     return Container(
+      color: Color(0xFFE9ECF0),
       child: Column(
         children: [
           buildCustomTitleView(),

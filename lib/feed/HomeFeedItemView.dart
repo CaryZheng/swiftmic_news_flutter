@@ -24,7 +24,14 @@ class _HomeFeedItemViewState extends State<HomeFeedItemView> {
   Widget build(BuildContext context) {
     if (ItemType.text_image == widget._data.itemType) {
       print("build ItemType text_images");
-      return getItemViewWithTextImages();
+
+      if (null == widget._data.images || widget._data.images.isEmpty) {
+        return getItemViewWithText();
+      } else if (widget._data.images.length >= 3) {
+        return getItemViewWithTextImages();
+      } else {
+        return getItemViewWithTextImageOne();
+      }
     } else if (ItemType.video == widget._data.itemType) {
       print("build ItemType video");
       return getItemViewWithVideo();
@@ -81,8 +88,17 @@ class _HomeFeedItemViewState extends State<HomeFeedItemView> {
   }
 
   Widget getItemViewWithTextImages() {
+    double imageWidth =
+        (MediaQuery.of(context).size.width - 10 * 2 - 4 * 10) / 3.0;
+    double imageHeight = imageWidth * 0.8;
+
     return InkWell(
       child: Container(
+        margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          color: Colors.white,
+        ),
         child: Column(
           children: [
             Text(
@@ -92,26 +108,30 @@ class _HomeFeedItemViewState extends State<HomeFeedItemView> {
               overflow: TextOverflow.ellipsis,
             ),
             Container(
+              margin: EdgeInsets.fromLTRB(0, 6, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   FadeInImage.assetNetwork(
                     placeholder: "images/item_images_test.png",
                     image: widget._data.images[0],
-                    width: 130,
-                    height: 100,
+                    width: imageWidth,
+                    height: imageHeight,
+                    fit: BoxFit.cover,
                   ),
                   FadeInImage.assetNetwork(
                     placeholder: "images/item_images_test.png",
                     image: widget._data.images[1],
-                    width: 130,
-                    height: 100,
+                    width: imageWidth,
+                    height: imageHeight,
+                    fit: BoxFit.cover,
                   ),
                   FadeInImage.assetNetwork(
                     placeholder: "images/item_images_test.png",
                     image: widget._data.images[2],
-                    width: 130,
-                    height: 100,
+                    width: imageWidth,
+                    height: imageHeight,
+                    fit: BoxFit.cover,
                   ),
                 ],
               ),
@@ -161,6 +181,11 @@ class _HomeFeedItemViewState extends State<HomeFeedItemView> {
   Widget getItemViewWithVideo() {
     return InkWell(
       child: Container(
+        margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          color: Colors.white,
+        ),
         child: Column(
           children: [
             Row(
@@ -187,12 +212,13 @@ class _HomeFeedItemViewState extends State<HomeFeedItemView> {
                           placeholder: "images/item_images_test.png",
                           image: widget._data.videoCover,
                           width: 130,
-                          height: 100,
+                          height: 104,
+                          fit: BoxFit.cover,
                         ),
                         Image.asset(
                           'images/a_y.png',
-                          width: 50,
-                          height: 50,
+                          width: 40,
+                          height: 40,
                         ),
                       ],
                     ),
@@ -205,6 +231,72 @@ class _HomeFeedItemViewState extends State<HomeFeedItemView> {
                           color: Colors.white,
                         ),
                       ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                // 作者
+                Container(
+                  child: Text(
+                    widget._data.authorName,
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                  margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                ),
+                Container(
+                  child: Text(
+                    widget._data.commentCount.toString() + "跟帖",
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                  margin: EdgeInsets.fromLTRB(16, 10, 0, 0),
+                )
+              ],
+            ),
+          ],
+        ),
+        padding: EdgeInsets.all(10),
+      ),
+      onTap: () {
+        onItemClicked();
+      },
+    );
+  }
+
+  Widget getItemViewWithTextImageOne() {
+    return InkWell(
+      child: Container(
+        margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    widget._data.title,
+                    style: TextStyle(fontSize: 18, color: Colors.black),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Stack(
+                  children: [
+                    FadeInImage.assetNetwork(
+                      placeholder: "images/item_images_test.png",
+                      image: widget._data.images.elementAt(0),
+                      width: 130,
+                      height: 100,
+                      fit: BoxFit.cover,
                     ),
                   ],
                 ),
