@@ -463,11 +463,17 @@ class _FeedTabViewState extends State<FeedTabView>
 
     return HomeFeedItemView(data, (data) {
       // 跳转到详情页面
-      Navigator.push(
-        context,
-        // MaterialPageRoute(builder: (context) => ArticleDetailPageView()),
-        MaterialPageRoute(builder: (context) => VideoDetailPage()),
-      );
+      if (ItemType.video == data.itemType) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => VideoDetailPage()),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ArticleDetailPageView()),
+        );
+      }
     });
   }
 }
