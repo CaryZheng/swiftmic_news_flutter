@@ -10,20 +10,36 @@ class VideoDetailPage extends StatefulWidget {
 
 class _VideoDetailPageState extends State<VideoDetailPage> {
   VideoPlayerController _controller;
-  Future<void> _initializeVideoPlayerFuture;
 
-  bool isTest = false;
+  double _videoPlayPercent = 0;
 
   @override
   void initState() {
-    _controller = VideoPlayerController.network(
-        'https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4');
+    super.initState();
 
-    _initializeVideoPlayerFuture = _controller.initialize();
+    _controller = VideoPlayerController.network(
+        "https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4")
+      ..initialize().then((a) {
+        setState(() {
+          _controller.play();
+        });
+      });
+
+    _controller.addListener(() {
+      Duration duration = _controller.value.duration;
+      int totalSeconds = duration.inSeconds;
+      int currentSeconds = _controller.value.position.inSeconds;
+
+      double percent = currentSeconds * 1.0 / totalSeconds;
+      print(
+          "Video currentSeconds = $currentSeconds, totalSeconds = $totalSeconds, percent = $percent");
+
+      setState(() {
+        _videoPlayPercent = percent;
+      });
+    });
 
     // _controller.setLooping(true);
-
-    super.initState();
   }
 
   @override
@@ -36,59 +52,37 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.black,
-        child: SafeArea(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        actions: [
+          IconButton(
+              icon: Image.asset(
+                'images/z7.png',
+                width: 30,
+                height: 30,
+              ),
+              onPressed: () {
+                print("导航栏菜单 clicked");
+              }),
+        ],
+      ),
+      body: SafeArea(
+        child: Container(
+          color: Colors.black,
           child: Column(
             children: [
-              Row(
-                children: [
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Image.asset(
-                    'images/a2w.png',
-                    width: 30,
-                    height: 30,
-                  ),
-                  Spacer(
-                    flex: 1,
-                  ),
-                  Image.asset(
-                    'images/z7.png',
-                    width: 30,
-                    height: 30,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 100,
-              ),
+              SizedBox(height: 100),
               Expanded(
                 flex: 1,
                 child: Stack(
                   children: [
-                    Container(
-                      child: FutureBuilder(
-                        future: _initializeVideoPlayerFuture,
-                        builder: (contex, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            return AspectRatio(
-                              aspectRatio: _controller.value.aspectRatio,
-                              child: VideoPlayer(_controller),
-                            );
-                          } else {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                        },
-                      ),
+                    AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
                     ),
                     Positioned(
-                      bottom: 100,
+                      bottom: 80,
                       child: Container(
                         width: MediaQuery.of(context).size.width - 60,
                         // height: 100,
@@ -135,7 +129,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                     ),
                     Positioned(
                       right: 0,
-                      bottom: 100,
+                      bottom: 80,
                       child: Column(
                         children: [
                           Container(
@@ -260,10 +254,59 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                     Positioned(
                       bottom: 0,
                       child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 100,
-                        color: Colors.pink,
-                      ),
+                          width: MediaQuery.of(context).size.width,
+                          height: 70,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 2,
+                                child: LinearProgressIndicator(
+                                  backgroundColor: Colors.grey[600],
+                                  valueColor:
+                                      AlwaysStoppedAnimation(Colors.white),
+                                  value: _videoPlayPercent,
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                child: TextField(
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                  ),
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Color(0x88191919),
+                                    contentPadding: EdgeInsets.all(10),
+                                    hintText: "写跟贴",
+                                    hintStyle: TextStyle(
+                                        color: Colors.white, fontSize: 14),
+                                    border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0x88191919)),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(40.0),
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0x88191919)),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(40.0),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Color(0x88191919)),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(40.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
                     ),
                   ],
                 ),
@@ -273,57 +316,5 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
         ),
       ),
     );
-
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: Text("视频详情"),
-    //     backgroundColor: Colors.red,
-    //   ),
-    //   body: Column(
-    //     children: [
-    //       Container(
-    //         color: Colors.black,
-    //         // child: _controller.value.isInitialized
-    //         //     ? AspectRatio(
-    //         //         aspectRatio: _controller.value.aspectRatio,
-    //         //         child: VideoPlayer(_controller),
-    //         //       )
-    //         //     : Container(),
-
-    //         child: FutureBuilder(
-    //           future: _initializeVideoPlayerFuture,
-    //           builder: (contex, snapshot) {
-    //             if (snapshot.connectionState == ConnectionState.done) {
-    //               return AspectRatio(
-    //                 aspectRatio: _controller.value.aspectRatio,
-    //                 child: VideoPlayer(_controller),
-    //               );
-    //             } else {
-    //               return Center(child: CircularProgressIndicator());
-    //             }
-    //           },
-    //         ),
-    //         // AspectRatio(
-    //         //   aspectRatio: _controller.value.aspectRatio,
-    //         //   child: VideoPlayer(_controller),
-    //         // ),
-    //       ),
-    //     ],
-    //   ),
-    //   floatingActionButton: FloatingActionButton(
-    //     onPressed: () {
-    //       setState(() {
-    //         if (_controller.value.isPlaying) {
-    //           _controller.pause();
-    //         } else {
-    //           _controller.play();
-    //         }
-    //       });
-    //     },
-    //     child: Icon(
-    //       _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-    //     ),
-    //   ),
-    // );
   }
 }
