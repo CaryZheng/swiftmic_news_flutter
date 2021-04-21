@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - my_hello (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - my_hello (from `.symlinks/plugins/my_hello/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  my_hello:
+    :path: ".symlinks/plugins/my_hello/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  my_hello: 842640a6eff2f70ca373390fc1157f5d6289c1bf
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.10.1
