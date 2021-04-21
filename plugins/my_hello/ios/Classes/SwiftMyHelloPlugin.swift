@@ -1,5 +1,6 @@
 import Flutter
 import UIKit
+import SwiftyJSON
 
 public class SwiftMyHelloPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
@@ -9,6 +10,23 @@ public class SwiftMyHelloPlugin: NSObject, FlutterPlugin {
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    result("call.method: \(call.method), iOS : " + UIDevice.current.systemVersion)
+    let jsonStr = """
+        {
+            "name": "Tony",
+            "age": 18
+        }
+    """
+    
+    var name = "Unknown"
+    
+    do {
+        let json = try JSON(data: jsonStr.data(using: .utf8)!)
+        name = json["name"].stringValue
+    } catch {
+        print("error = \(error)")
+    }
+    
+    
+    result("name = \(name), call.method: \(call.method), iOS : " + UIDevice.current.systemVersion)
   }
 }

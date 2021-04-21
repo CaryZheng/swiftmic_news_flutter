@@ -2,10 +2,16 @@ PODS:
   - Flutter (1.0.0)
   - my_hello (0.0.1):
     - Flutter
+    - SwiftyJSON (~> 5.0)
+  - SwiftyJSON (5.0.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - my_hello (from `.symlinks/plugins/my_hello/ios`)
+
+SPEC REPOS:
+  trunk:
+    - SwiftyJSON
 
 EXTERNAL SOURCES:
   Flutter:
@@ -15,7 +21,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  my_hello: 842640a6eff2f70ca373390fc1157f5d6289c1bf
+  my_hello: ecdb71e413ac7186d80f354bf1a38a6d0d7d7072
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
