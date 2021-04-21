@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_hello/my_hello.dart';
 
 class ArticleDetailPageView extends StatefulWidget {
   @override
@@ -25,6 +26,8 @@ class _ArticleDetailPageViewState extends State<ArticleDetailPageView>
   AnimationController _animationController;
   Animation<Offset> _animation;
 
+  String _platformVersion = "";
+
   _ArticleDetailPageViewState() {
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 200));
@@ -34,6 +37,16 @@ class _ArticleDetailPageViewState extends State<ArticleDetailPageView>
 
     _animation = Tween(begin: Offset(1, 0), end: Offset(0, 0))
         .animate(_animationController);
+
+    getPlatformVersion();
+  }
+
+  Future<void> getPlatformVersion() async {
+    String version = await MyHello.platformVersion;
+
+    setState(() {
+      _platformVersion = version;
+    });
   }
 
   Widget getBodyContentView() {
@@ -103,7 +116,7 @@ class _ArticleDetailPageViewState extends State<ArticleDetailPageView>
         ),
         Container(
             child: Text(
-              sampleText,
+              _platformVersion + "_" + sampleText,
               style: TextStyle(
                 fontSize: 18,
               ),

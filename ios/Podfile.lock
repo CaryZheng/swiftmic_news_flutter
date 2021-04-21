@@ -1,18 +1,29 @@
 PODS:
   - Flutter (1.0.0)
+  - my_hello (0.0.1):
+    - Flutter
+    - SwiftyJSON (~> 5.0)
   - shared_preferences (0.0.1):
     - Flutter
+  - SwiftyJSON (5.0.0)
   - video_player (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - my_hello (from `.symlinks/plugins/my_hello/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
+
+SPEC REPOS:
+  trunk:
+    - SwiftyJSON
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  my_hello:
+    :path: ".symlinks/plugins/my_hello/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   video_player:
@@ -20,7 +31,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  my_hello: ecdb71e413ac7186d80f354bf1a38a6d0d7d7072
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c

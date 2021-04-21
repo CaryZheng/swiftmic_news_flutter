@@ -128,6 +128,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.3.0"
+  my_hello:
+    dependency: "direct main"
+    description:
+      path: "plugins/my_hello"
+      relative: true
+    source: path
+    version: "0.0.1"
   path:
     dependency: transitive
     description:
