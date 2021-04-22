@@ -1,6 +1,7 @@
 package com.zzb.my_hello
 
 import androidx.annotation.NonNull
+import com.alibaba.fastjson.JSON
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
@@ -8,6 +9,8 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
+
+data class MyUser(val name: String, val age: Int)
 
 /** MyHelloPlugin */
 class MyHelloPlugin: FlutterPlugin, MethodCallHandler {
@@ -24,7 +27,12 @@ class MyHelloPlugin: FlutterPlugin, MethodCallHandler {
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     if (call.method == "getPlatformVersion") {
-      result.success("Android ${android.os.Build.VERSION.RELEASE}")
+
+      val dts = MyUser("Tony",19)
+      val jsons = JSON.toJSONString(dts)
+      println(jsons)
+
+      result.success("jsons: ${jsons}, call.method: ${call.method}, Android: ${android.os.Build.VERSION.RELEASE}_")
     } else {
       result.notImplemented()
     }
