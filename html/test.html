@@ -1,0 +1,21 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=2">
+    <script type="text/javascript">
+        function callFlutter() {
+            SwiftMic.postMessage("JS调用了Flutter");
+        }
+
+        function callJS(message) {
+            document.getElementById("p1").style.visibility = message;
+        }
+    </script>
+</head>
+<body>
+    <button onclick="callFlutter()">callFlutter</button>
+
+    <p id="p1" style="visibility:hidden;">
+        Flutter调用了JS
+    </p>
+</body>
+</html>
