@@ -4,6 +4,7 @@ import 'package:swiftmic_news/api/ApiManager.dart';
 import 'package:swiftmic_news/article/ArticleDetailPageView.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:swiftmic_news/article/VideoDetailPage.dart';
+import 'package:swiftmic_news/article/WebViewPageView.dart';
 import 'package:swiftmic_news/feed/HomeFeedItemData.dart';
 import 'package:swiftmic_news/feed/HomeFeedItemView.dart';
 import 'dart:convert';
@@ -464,9 +465,14 @@ class _FeedTabViewState extends State<FeedTabView>
     return HomeFeedItemView(data, (data) {
       // 跳转到详情页面
       if (ItemType.video == data.itemType) {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => VideoDetailPage()),
+        // );
+
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => VideoDetailPage()),
+          MaterialPageRoute(builder: (context) => WebViewPageView()),
         );
       } else {
         Navigator.push(

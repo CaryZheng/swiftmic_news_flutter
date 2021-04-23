@@ -28,6 +28,7 @@ dependencies:
   english_words: ^3.1.5
   shared_preferences: ^2.0.5
   video_player: ^2.1.1
+  webview_flutter: ^2.0.4
   my_hello:
     path: ./plugins/my_hello
 
