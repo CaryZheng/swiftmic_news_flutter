@@ -216,8 +216,8 @@ class _FeedTabViewState extends State<FeedTabView>
               // Logo
               Image.asset(
                 'images/logo.png',
-                width: 72,
-                height: 72,
+                width: 60,
+                height: 60,
               ),
               // Search
               Expanded(
@@ -264,16 +264,16 @@ class _FeedTabViewState extends State<FeedTabView>
                   children: [
                     Image.asset(
                       'images/skin1_news_main_message_box_icon.png',
-                      width: 36,
-                      height: 36,
+                      width: 26,
+                      height: 26,
                     ),
                     SizedBox(
                       width: 10,
                     ),
                     Image.asset(
                       'images/skin1_news_main_message_box_icon.png',
-                      width: 36,
-                      height: 36,
+                      width: 26,
+                      height: 26,
                     ),
                   ],
                 ),

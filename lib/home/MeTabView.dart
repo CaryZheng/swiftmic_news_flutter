@@ -96,10 +96,10 @@ class _MeTabViewState extends State<MeTabView> {
     return Container(
       child: Column(
         children: [
-          Text(
+          Image.asset(
             iconName,
-            style: TextStyle(
-                fontFamily: "MaterialIcons", fontSize: 24, color: Colors.red),
+            width: 30,
+            height: 30,
           ),
           SizedBox(
             height: 4,
@@ -107,7 +107,7 @@ class _MeTabViewState extends State<MeTabView> {
           Text(
             text,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 13,
             ),
           ),
         ],
@@ -122,7 +122,7 @@ class _MeTabViewState extends State<MeTabView> {
     );
 
     Container container = Container(
-      margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white),
@@ -139,7 +139,7 @@ class _MeTabViewState extends State<MeTabView> {
         children: [
           Text(
             title,
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 16),
           ),
           Spacer(),
           Text(
@@ -162,6 +162,7 @@ class _MeTabViewState extends State<MeTabView> {
       var container = Container(
         child: row,
         margin: EdgeInsets.fromLTRB(0, marginTop, 0, 0),
+        padding: EdgeInsets.fromLTRB(6, 6, 6, 6),
       );
 
       InkWell inkWell = InkWell(
@@ -290,7 +291,7 @@ class _MeTabViewState extends State<MeTabView> {
   Widget buildNoSigninCountView() {
     return Row(children: [
       Expanded(
-        child: buildNoSigninCountItemView("aen", "动态"),
+        child: buildNoSigninCountItemView("ah7", "动态"),
       ),
       Expanded(
         child: buildNoSigninCountItemView("aep", "跟帖"),
@@ -310,8 +311,8 @@ class _MeTabViewState extends State<MeTabView> {
         children: [
           Image.asset(
             'images/$iconName.png',
-            width: 30,
-            height: 30,
+            width: 20,
+            height: 20,
           ),
           SizedBox(
             height: 4,
@@ -341,7 +342,7 @@ class _MeTabViewState extends State<MeTabView> {
                     width: 20,
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(14, 10, 14, 10),
+                    padding: EdgeInsets.fromLTRB(10, 6, 10, 6),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
@@ -354,11 +355,14 @@ class _MeTabViewState extends State<MeTabView> {
                       children: [
                         Image.asset(
                           'images/a6h.png',
-                          width: 20,
-                          height: 20,
+                          width: 16,
+                          height: 16,
                         ),
                         SizedBox(width: 6),
-                        Text("设置"),
+                        Text(
+                          "设置",
+                          style: TextStyle(fontSize: 12),
+                        ),
                       ],
                     ),
                   ),
@@ -366,7 +370,7 @@ class _MeTabViewState extends State<MeTabView> {
                     flex: 1,
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(14, 10, 14, 10),
+                    padding: EdgeInsets.fromLTRB(10, 6, 10, 6),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
@@ -379,11 +383,14 @@ class _MeTabViewState extends State<MeTabView> {
                       children: [
                         Image.asset(
                           'images/skin0_news_main_message_box_icon.png',
-                          width: 20,
-                          height: 20,
+                          width: 16,
+                          height: 16,
                         ),
                         SizedBox(width: 6),
-                        Text("消息"),
+                        Text(
+                          "消息",
+                          style: TextStyle(fontSize: 12),
+                        ),
                       ],
                     ),
                   ),
@@ -394,9 +401,10 @@ class _MeTabViewState extends State<MeTabView> {
               ),
               _isSignin ? buildSigninView() : buildNoSigninView(),
               _isSignin ? buildSigninCountView() : buildNoSigninCountView(),
+              SizedBox(height: 10),
               Container(
-                margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                padding: EdgeInsets.fromLTRB(10, 16, 10, 16),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.white),
                   borderRadius: BorderRadius.circular(10),
@@ -405,10 +413,10 @@ class _MeTabViewState extends State<MeTabView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    buildIconWithTextView("\uE000", "我的关注"),
-                    buildIconWithTextView("\uE001", "我的圈子"),
-                    buildIconWithTextView("\uE002", "任务中心"),
-                    buildIconWithTextView("\uE003", "金币商城"),
+                    buildIconWithTextView("images/agg.png", "我的关注"),
+                    buildIconWithTextView("images/afq.png", "我的圈子"),
+                    buildIconWithTextView("images/agj.png", "任务中心"),
+                    buildIconWithTextView("images/agh.png", "金币商城"),
                   ],
                 ),
               ),
