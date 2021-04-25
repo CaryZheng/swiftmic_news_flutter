@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:swiftmic_news/home/FeedTabView.dart';
 import 'package:swiftmic_news/home/MainPage.dart';
 import 'package:swiftmic_news/home/MeTabView.dart';
-import 'package:swiftmic_news/home/MessageCenterTabView.dart';
-import 'package:swiftmic_news/home/NodeTabView.dart';
+import 'package:swiftmic_news/home/TopicTabView.dart';
+import 'package:swiftmic_news/home/VideoTabView.dart';
 
 void main() {
   runApp(MyApp());
@@ -58,8 +58,8 @@ class _MyHomePageState extends State<MyHomePage>
 
   final pages = [
     FeedTabView(),
-    NodeTabView("视频"),
-    MessageCenterTabView("圈子"),
+    VideoTabView(),
+    TopicTabView(),
     MeTabView("我的")
   ];
 

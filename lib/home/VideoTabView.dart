@@ -3,16 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class NodeTabView extends StatefulWidget {
-  final String _title;
-
-  NodeTabView(this._title);
-
+class VideoTabView extends StatefulWidget {
   @override
-  _NodeTabViewState createState() => _NodeTabViewState();
+  _VideoTabViewState createState() => _VideoTabViewState();
 }
 
-class _NodeTabViewState extends State<NodeTabView> {
+class _VideoTabViewState extends State<VideoTabView> {
   @override
   Widget build(BuildContext context) {
     return Container(
