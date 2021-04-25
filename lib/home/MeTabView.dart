@@ -142,12 +142,10 @@ class _MeTabViewState extends State<MeTabView> {
             style: TextStyle(fontSize: 16),
           ),
           Spacer(),
-          Text(
-            "\ue5b0",
-            style: TextStyle(
-              fontFamily: "MaterialIcons",
-              fontSize: 24,
-            ),
+          Image.asset(
+            "images/ah1.png",
+            width: 20,
+            height: 20,
           ),
         ],
       );
