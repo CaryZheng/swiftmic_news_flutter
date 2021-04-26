@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:swiftmic_news/helper/AliveKeeper.dart';
+import 'package:swiftmic_news/topic/TopicRecommendView.dart';
 
 class TopicTabView extends StatefulWidget {
   @override
@@ -53,9 +55,7 @@ class _TopicTabViewState extends State<TopicTabView> {
   Widget buildRecommendContentView() {
     return Expanded(
       flex: 1,
-      child: Container(
-        color: Colors.yellow,
-      ),
+      child: TopicRecommendView(),
     );
   }
 
@@ -70,15 +70,17 @@ class _TopicTabViewState extends State<TopicTabView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: SafeArea(
-        child: Column(children: [
-          buildCustomTitleView(),
-          (0 == _selectedTitleIndex)
-              ? buildRecommendContentView()
-              : buildSquareContentView()
-        ]),
+    return AliveKeeper(
+      child: Container(
+        color: Colors.white,
+        child: SafeArea(
+          child: Column(children: [
+            buildCustomTitleView(),
+            (0 == _selectedTitleIndex)
+                ? buildRecommendContentView()
+                : buildSquareContentView()
+          ]),
+        ),
       ),
     );
   }
