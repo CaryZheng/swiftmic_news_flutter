@@ -36,4 +36,12 @@ class ApiManager {
     onNetworkCallback(response, tag: tag);
     // onNetworkCallback(utf8.decode(response.runes.toList()), tag: tag);
   }
+
+  void fetchTopicRecommendList(int startPageIndex, int pageSize,
+      {tag: "", onNetworkCallback: OnNetworkCallback}) async {
+    await Future.delayed(Duration(milliseconds: 500));
+
+    String response = await getJson("json/topic_recommend_list.json");
+    onNetworkCallback(response, tag: tag);
+  }
 }

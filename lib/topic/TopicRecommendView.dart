@@ -9,6 +9,9 @@ import 'package:swiftmic_news/article/WebViewPageView.dart';
 import 'package:swiftmic_news/feed/HomeFeedItemData.dart';
 import 'package:swiftmic_news/feed/HomeFeedItemView.dart';
 import 'package:swiftmic_news/helper/EnumHelper.dart';
+import 'package:swiftmic_news/topic/TopicRecommendItemData.dart';
+import 'package:swiftmic_news/topic/TopicRecommendItemType.dart';
+import 'package:swiftmic_news/topic/TopicRecommendItemView.dart';
 
 class TopicRecommendView extends StatefulWidget {
   @override
@@ -21,7 +24,7 @@ class _TopicRecommendViewState extends State<TopicRecommendView> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: true);
 
-  List<HomeFeedItemData> _dataList = [];
+  List<TopicRecommendItemData> _dataList = [];
   int _currentFetchPageIndex = 0;
   final int _pageSize = 10;
 
@@ -80,26 +83,19 @@ class _TopicRecommendViewState extends State<TopicRecommendView> {
       return Text("Null");
     }
 
-    HomeFeedItemData data = _dataList[index];
+    TopicRecommendItemData data = _dataList[index];
 
-    return HomeFeedItemView(data, (data) {
+    return TopicRecommendItemView(data, (data) {
       // 跳转到详情页面
-      if (ItemType.video == data.itemType) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => WebViewPageView()),
-        );
-      } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ArticleDetailPageView()),
-        );
-      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ArticleDetailPageView()),
+      );
     });
   }
 
-  void handleResult(int fetchPageIndex) {
-    _apiManager.fetchFeedHeadList(_currentFetchPageIndex, _pageSize,
+  void handleFetchData(int fetchPageIndex) {
+    _apiManager.fetchTopicRecommendList(_currentFetchPageIndex, _pageSize,
         tag: _currentFetchPageIndex.toString(),
         onNetworkCallback: (String response, {String tag}) {
       print("onNetworkCallback response = $response");
@@ -115,24 +111,34 @@ class _TopicRecommendViewState extends State<TopicRecommendView> {
 
       print("dataList = $dataList");
 
-      List<HomeFeedItemData> itemDataList = [];
+      List<TopicRecommendItemData> itemDataList = [];
 
       for (Map element in dataList) {
-        HomeFeedItemData itemData = HomeFeedItemData();
+        TopicRecommendItemData itemData = TopicRecommendItemData();
 
+        String avatarUrl = element['avatarUrl'];
         String author = element['source'];
-        String title = element['title'];
+        String authorDescription = element['sourceDescription'];
+        String textContent = element['textContent'];
+
         int commentCount = element['replyCount'];
         String videoCover = element["videoCover"];
         int videoTime = element['videoTime'];
-        ItemType itemType = EnumHelper.getItemType(element['type']);
 
-        itemData.itemType = itemType;
+        int upCount = element['upCount'];
+        int downCount = element['downCount'];
+
+        itemData.itemType =
+            EnumHelper.getTopicRecommendItemType(element['type']);
+        itemData.avatarUrl = avatarUrl;
         itemData.authorName = author;
-        itemData.title = title;
+        itemData.authorDescription = authorDescription;
+        itemData.textContent = textContent;
         itemData.commentCount = commentCount;
         itemData.videoCover = videoCover;
         itemData.videoTime = videoTime;
+        itemData.upCount = upCount;
+        itemData.downCount = downCount;
 
         var images = element['images'];
         if (null != images) {
@@ -168,13 +174,13 @@ class _TopicRecommendViewState extends State<TopicRecommendView> {
   void _onRefresh() async {
     _currentFetchPageIndex = 0;
 
-    handleResult(0);
+    handleFetchData(0);
   }
 
   void _onLoading() async {
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
     int startPageIndex = _currentFetchPageIndex + 1;
-    handleResult(startPageIndex);
+    handleFetchData(startPageIndex);
   }
 }
