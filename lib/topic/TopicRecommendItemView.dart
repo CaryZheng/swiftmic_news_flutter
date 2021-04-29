@@ -1,3 +1,4 @@
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:swiftmic_news/topic/TopicRecommendItemData.dart';
 import 'package:swiftmic_news/topic/TopicRecommendItemType.dart';
@@ -42,7 +43,7 @@ class _TopicRecommendItemViewState extends State<TopicRecommendItemView> {
   }
 
   Widget getItemViewWithTextImageOne() {
-    final double imageWidth = 110;
+    final double imageWidth = 200;
     final double imageHeight = imageWidth * 0.75;
 
     return InkWell(
@@ -53,6 +54,7 @@ class _TopicRecommendItemViewState extends State<TopicRecommendItemView> {
           color: Colors.white,
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -88,25 +90,20 @@ class _TopicRecommendItemViewState extends State<TopicRecommendItemView> {
               ],
             ),
             SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    height: imageHeight,
-                    child: Text(
-                      widget.data.textContent,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                      ),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
+            Container(
+              child: ExpandableText(
+                widget.data.textContent,
+                expandText: "全文",
+                collapseText: "隐藏",
+                linkColor: Colors.grey,
+                maxLines: 3,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
                 ),
-              ],
+              ),
             ),
+            SizedBox(height: 10),
             Container(
               margin: EdgeInsets.fromLTRB(0, 6, 0, 0),
               child: Row(
