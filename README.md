@@ -1,3 +1,3 @@
 # swiftmic_news
 
-Flutter Demo
+Flutter 2 Demo
